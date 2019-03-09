@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ZH-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>登陆页</title>
+    <link th:href="@{/layui/css/layui.css}" rel="stylesheet">
+    <link th:href="@{/css/login.less}" rel="stylesheet">
+</head>
+<body class="login-bg">
+    <div class="login">
+        <div class="message">物业后台管理系统</div>
+        <from method="post" class="layui-form">
+            <input class="layui-input" lay-verify="required" type="text"
+                   placeholder="请输入用户名" name="username">
+            <input class="layui-input" lay-verify="required" type="password"
+                   placeholder="请输入用户名" name="password">
+        </from>
+    </div>
+</body>
+</html>
