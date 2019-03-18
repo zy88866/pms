@@ -8,11 +8,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class ScmApplication {
 
-    private static Logger logger = LoggerFactory.getLogger(org.slf4j.Logger.ROOT_LOGGER_NAME);
+    private static final Logger log = LoggerFactory.getLogger(ScmApplication.class);
 
     public static void main(String[] args) {
         SpringApplication.run(ScmApplication.class, args);
-        logger.info("--启动完成--");
+        log.info("--启动完成--");
     }
 
 }

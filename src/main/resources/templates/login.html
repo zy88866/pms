@@ -3,18 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <title>登陆页</title>
-    <link th:href="@{/layui/css/layui.css}" rel="stylesheet">
-    <link th:href="@{/css/login.less}" rel="stylesheet">
+    <link th:href="@{/images/favicon.png}" rel="shortcut icon">
+    <link th:href="@{/css/login.css}" rel="stylesheet">
 </head>
 <body class="login-bg">
     <div class="login">
         <div class="message">物业后台管理系统</div>
         <from method="post" class="layui-form">
-            <input class="layui-input" lay-verify="required" type="text"
-                   placeholder="请输入用户名" name="username">
-            <input class="layui-input" lay-verify="required" type="password"
-                   placeholder="请输入用户名" name="password">
+            <div class="layui-form-item">
+                <label class="layui-form-label">用户名</label>
+                <div class="layui-input-block">
+                    <input type="text" name="username" required  lay-verify="required"
+                           placeholder="请输入用户名" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">密&#12288;码</label>
+                <div class="layui-input-block">
+                    <input type="password" name="password" required lay-verify="required"
+                           placeholder="请输入密码" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-inline readme">
+                    <input type="checkbox" name="readMe" title="记住密码"  lay-skin="primary" checked>
+                </div>
+                <label class="layui-form-label" style="display: inline">登陆类型 </label>
+                <div class="layui-input-inline">
+                    <select name="user-type" lay-verify="required" class="user-type">
+                        <option value="0">业主</option>
+                        <option value="0">物业</option>
+                        <option value="1">管理员</option>
+                    </select>
+                </div>
+            </div>
+
         </from>
     </div>
 </body>
+<script th:src="@{/layui/layui.js}"></script>
+<script>
+    //Demo
+    layui.use('form', function(){
+        var form = layui.form;
+
+        //监听提交
+        form.on('submit(formDemo)', function(data){
+            layer.msg(JSON.stringify(data.field));
+            return false;
+        });
+    });
+</script>
+
 </html>
