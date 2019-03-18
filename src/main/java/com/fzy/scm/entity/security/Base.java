@@ -1,7 +1,9 @@
-package com.fzy.scm.entity;
+package com.fzy.scm.entity.security;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -17,18 +19,12 @@ public class Base implements Serializable {
     private Long id;
 
     @JsonIgnore
-    @Temporal(TemporalType.TIMESTAMP)
+    @CreationTimestamp
     private Date createTime;
 
     @JsonIgnore
-    private String createUser;
-
-    @JsonIgnore
-    @Temporal(TemporalType.TIMESTAMP)
+    @UpdateTimestamp
     private Date updateTime;
-
-    @JsonIgnore
-    private String updateUser;
 
     @JsonIgnore
     @NotNull

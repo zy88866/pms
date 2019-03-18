@@ -1,7 +1,7 @@
 package com.fzy.scm.service;
 
 import com.fzy.scm.dao.UserRepository;
-import com.fzy.scm.entity.User;
+import com.fzy.scm.entity.security.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;

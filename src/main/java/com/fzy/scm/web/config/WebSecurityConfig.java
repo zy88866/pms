@@ -26,14 +26,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override //配置策略
     protected void configure(HttpSecurity http) throws Exception {
+        super.configure(http);
         http.csrf().disable();
         http.authorizeRequests()
                 .antMatchers("/static/*").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic()
-                .and().formLogin().defaultSuccessUrl("/index");
-        super.configure(http);
+                .and().formLogin().defaultSuccessUrl("/index")
+                .and().logout().logoutSuccessUrl("/login");
     }
 
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -43,6 +44,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
+        super.configure(web);
         web.ignoring().antMatchers("/static/**");
     }
 

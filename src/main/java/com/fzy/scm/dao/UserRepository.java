@@ -1,6 +1,6 @@
 package com.fzy.scm.dao;
 
-import com.fzy.scm.entity.User;
+import com.fzy.scm.entity.security.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

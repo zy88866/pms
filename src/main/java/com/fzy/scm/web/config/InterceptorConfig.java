@@ -32,6 +32,6 @@ public class InterceptorConfig extends WebMvcConfigurationSupport {
 
     @Override
     protected void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/index").setViewName("index");
+        registry.addViewController("/").setViewName("index");
     }
 }
