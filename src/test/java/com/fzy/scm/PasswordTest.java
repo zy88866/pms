@@ -43,7 +43,7 @@ public class PasswordTest {
         role.setCreateTime(new Date());
 
         User user=new User();
-        user.setUserName("admin");
+        user.setUsername("admin");
         user.setPassword(passwordEncoder.encode("admin"));
         user.setRealName("张三");
         user.setDeleteFlag(0);
@@ -53,6 +53,6 @@ public class PasswordTest {
 
     @Test
     public void findUser(){
-        userRepository.findByUserName("admin").ifPresent(System.out::println);
+        userRepository.findByUsername("admin").ifPresent(System.out::println);
     }
  }

@@ -17,12 +17,17 @@ import lombok.Data;
 @ApiModel("统一返回结果实体")
 public class Result<T> {
 
-    @ApiModelProperty(value = "错误码",example="200")
+    @ApiModelProperty(value = "返回代码",example="200")
     private Integer code;
-    @ApiModelProperty("错误消息")
+
+    @ApiModelProperty("失败消息")
     private String message;
-    @ApiModelProperty("数据")
+
+    @ApiModelProperty("结果对象")
     private T data;
+
+    @ApiModelProperty("时间戳")
+    private long timestamp = System.currentTimeMillis();
 
     public static Result success(){
         Result result=new Result();
@@ -42,6 +47,15 @@ public class Result<T> {
         result.setRestCode(code);
         return result;
     }
+
+
+    public static Result failure(String message){
+        Result result=new Result();
+        result.setCode(RestCode.SYS_ERROR_EXCEPTION.getCode());
+        result.setMessage(message);
+        return result;
+    }
+
 
     public static Result failure(Integer code, String message){
         Result result=new Result();

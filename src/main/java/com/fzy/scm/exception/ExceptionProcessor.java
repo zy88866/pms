@@ -1,5 +1,6 @@
 package com.fzy.scm.exception;
 
+import com.fzy.scm.entity.enums.RestCode;
 import com.fzy.scm.entity.rest.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -7,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.Objects;
 
@@ -26,10 +28,11 @@ public class ExceptionProcessor {
      * @return
      */
     @ExceptionHandler(Exception.class)
+    @ResponseStatus(value = HttpStatus.OK)
     public Result handleException(Exception e){
         // 打印堆栈信息
         log.error(ExceptionUtils.getStackTrace(e));
-        return Result.failure(HttpStatus.BAD_REQUEST.value(),e.getMessage());
+        return Result.failure(RestCode.SYS_ERROR_EXCEPTION);
     }
 
     /**
@@ -42,7 +45,7 @@ public class ExceptionProcessor {
         // 打印堆栈信息
         log.error(ExceptionUtils.getStackTrace(e));
         String[] str = Objects.requireNonNull(e.getBindingResult().getAllErrors().get(0).getCodes())[1].split("\\.");
-        return Result.failure(HttpStatus.BAD_REQUEST.value(), str[1] + ":" + e.getBindingResult().getAllErrors().get(0).getDefaultMessage());
+        return Result.failure(HttpStatus.INTERNAL_SERVER_ERROR.value(), str[1] + ":" + e.getBindingResult().getAllErrors().get(0).getDefaultMessage());
     }
 
     /**
@@ -50,10 +53,12 @@ public class ExceptionProcessor {
      * @param e
      * @return
      */
-    @ExceptionHandler(value = BadRequestException.class)
-    public Result badRequestException(BadRequestException e) {
+    @ExceptionHandler({SystemErrorException.class})
+    @ResponseStatus(value = HttpStatus.OK)
+    public Result baseException(BaseException e) {
         // 打印堆栈信息
         log.error(ExceptionUtils.getStackTrace(e));
         return Result.failure(e.getCode(),e.getMessage());
     }
+
 }

@@ -1,4 +1,4 @@
-package com.fzy.scm.service;
+package com.fzy.scm.service.Impl;
 
 import com.fzy.scm.dao.UserRepository;
 import com.fzy.scm.entity.security.User;
@@ -26,7 +26,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByUserName(username).orElseGet(()-> {
+        return userRepository.findByUsername(username).orElseGet(()-> {
             throw new UsernameNotFoundException("用户名不存在");
         });
     }

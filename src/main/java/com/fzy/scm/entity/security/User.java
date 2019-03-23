@@ -39,7 +39,7 @@ public class User extends Base implements UserDetails {
     @NotBlank(message = "用户名不能为空")
     @Column(unique = true)
     @JsonView(UserSimpleView.class)
-    private String userName;
+    private String username;
 
     @NotBlank(message = "密码不能为空")
     @JsonView(UserDataView.class)
@@ -74,7 +74,7 @@ public class User extends Base implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.userName;
+        return this.username;
     }
 
     @Override
@@ -101,7 +101,8 @@ public class User extends Base implements UserDetails {
     public String toString() {
         return "User{" +
                 "id=" + super.getId() +
-                ", username='" + userName + '\''+
+                ", username='" + username + '\''+
+                ", realName='" + realName + '\''+
                 '}';
     }
 }
