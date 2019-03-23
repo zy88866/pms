@@ -12,7 +12,8 @@ import lombok.Getter;
 public enum RestCode {
     SUCCESS(200,"SUCCESS"),
     FAILURE(500,"FAILURE"),
-    PARAM_ERROR(400,"参数错误");
+    PARAM_ERROR(400,"参数错误"),
+    NO_USER_ERROR(501,"用户不存在");
 
     private Integer code;
 

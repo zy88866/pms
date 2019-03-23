@@ -2,16 +2,21 @@ package com.fzy.scm.web.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fzy.scm.dao.UserRepository;
+import com.fzy.scm.entity.enums.RestCode;
+import com.fzy.scm.entity.rest.Result;
 import com.fzy.scm.entity.security.User;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
+@Api(tags = "用户接口")
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -27,19 +32,15 @@ public class UserController {
     }
 
     @GetMapping("/{id:\\d+}")
-    @JsonView(User.UserDataView.class)
-    public User getUser(@PathVariable Long id){
-        return userRepository.findById(id).get();
+    @ApiOperation(value = "查询用户",notes = "根据用户id查询用户信息")
+    public Result getUser(@PathVariable Long id){
+        Optional<User> user = userRepository.findById(id);
+        return user.isPresent()? Result.success(user.get()):Result.failure(RestCode.NO_USER_ERROR);
     }
 
+    @ApiOperation(value="添加用户", notes="传入用户实体")
     @PostMapping
-    public User createUser(@Valid @RequestBody User user ,BindingResult errors){
-
-        if(errors.hasErrors()){
-            errors.getAllErrors().forEach(e->
-                    System.out.println(e.getDefaultMessage())
-            );
-        }
+    public User createUser(@Valid @RequestBody User user){
         return userRepository.save(user);
     }
 

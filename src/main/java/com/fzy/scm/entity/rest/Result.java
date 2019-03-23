@@ -2,6 +2,8 @@ package com.fzy.scm.entity.rest;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fzy.scm.entity.enums.RestCode;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
@@ -12,10 +14,14 @@ import lombok.Data;
  **/
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@ApiModel("统一返回结果实体")
 public class Result<T> {
 
+    @ApiModelProperty(value = "错误码",example="200")
     private Integer code;
+    @ApiModelProperty("错误消息")
     private String message;
+    @ApiModelProperty("数据")
     private T data;
 
     public static Result success(){
