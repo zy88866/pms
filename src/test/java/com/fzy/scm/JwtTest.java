@@ -34,7 +34,8 @@ public class JwtTest {
 
     @Test
     public void paramJwtToken(){
-        User user = jwtTokenUtil.parseUserToken("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJhZG1pbiIsInJlYWxOYW1lIjoi5byg5LiJIiwiZXhwIjoxNTUzMzYzMzQzfQ.Y3XWx5-oPZPofIrzQZep6ytw86RiAPFH9KCXPvWJCxs4aSe4NGUqUeDvgPc7_oMdEL5lv5YkJkPez9frWAKz9A");
+        User user = jwtTokenUtil.
+                parseUserToken("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJhZG1pbiIsInJlYWxOYW1lIjoi5byg5LiJIiwiZXhwIjoxNTUzMzk2MTgwfQ.mpmY5u2mOOcsELQlrcNgN8_rPv4S7Ahc_lCg-IPYuqEh-9KERehM4d5QqnsIQqDpHGWTnpKfM9p7EKPGnf6zHA");
         System.out.println(user);
 
     }

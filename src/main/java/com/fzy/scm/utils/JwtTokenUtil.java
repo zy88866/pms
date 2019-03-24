@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * @program: JwtTokenUtil
@@ -31,7 +32,6 @@ public class JwtTokenUtil implements Serializable {
     private static final String CLAIM_KEY_ID = "id";
     private static final String CLAIM_KEY_USERNAME = "username";
     private static final String CLAIM_KEY_REAL_NAME = "realName";
-
 
     /**
      * 生成 Token
@@ -80,10 +80,14 @@ public class JwtTokenUtil implements Serializable {
      * @return
      */
     public Claims parseToken(String token){
-        return Jwts.parser()
-            .setSigningKey(SECRET)
-            .parseClaimsJws(token)
-            .getBody();
+        try {
+            return Jwts.parser()
+                    .setSigningKey(SECRET)
+                    .parseClaimsJws(token)
+                    .getBody();
+        }catch (Exception e){
+            return null;
+        }
     }
 
     /**
@@ -103,10 +107,11 @@ public class JwtTokenUtil implements Serializable {
      * @return
      */
     public Boolean isTokenExpired(String token) {
-        final Date expiration = parseToken(token).getExpiration();
-        return expiration.before(new Date());
+        Claims claims = parseToken(token);
+        if(!Objects.isNull(claims)){
+           return claims.getExpiration().before(new Date());
+        }
+        return true;
     }
-
-
 
 }

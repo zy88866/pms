@@ -2,7 +2,6 @@ package com.fzy.scm.web.controller.api;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fzy.scm.dao.UserRepository;
-import com.fzy.scm.entity.enums.RestCode;
 import com.fzy.scm.entity.rest.Result;
 import com.fzy.scm.entity.security.User;
 import io.swagger.annotations.Api;
@@ -36,7 +35,7 @@ public class UserController {
     @ApiOperation(value = "查询用户",notes = "根据用户id查询用户信息")
     public Result getUser(@PathVariable Long id){
         Optional<User> user = userRepository.findById(id);
-        return user.isPresent()? Result.success(user.get()):Result.failure(RestCode.NO_USER_ERROR);
+        return user.isPresent()? Result.success(user.get()):Result.failure("获取用户信息失败");
     }
 
     @ApiOperation(value="添加用户", notes="传入用户实体")
@@ -51,7 +50,7 @@ public class UserController {
     public Result getUserInfo(){
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Optional<User> dbUser = userRepository.findByUsername(user.getUsername());
-        return dbUser.isPresent()? Result.success(dbUser.get()):Result.failure(RestCode.NO_USER_ERROR);
+        return dbUser.isPresent()? Result.success(dbUser.get()):Result.failure("获取用户信息失败");
     }
 
 }

@@ -1,7 +1,6 @@
 package com.fzy.scm.entity.security;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonView;
 import com.google.common.collect.Lists;
 import lombok.Getter;
 import lombok.Setter;
@@ -38,11 +37,10 @@ public class User extends Base implements UserDetails {
 
     @NotBlank(message = "用户名不能为空")
     @Column(unique = true)
-    @JsonView(UserSimpleView.class)
     private String username;
 
     @NotBlank(message = "密码不能为空")
-    @JsonView(UserDataView.class)
+    @JsonIgnore
     private String password;
 
     @Email(message = "邮箱不符合规则")

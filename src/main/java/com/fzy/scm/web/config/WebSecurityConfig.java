@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import javax.annotation.Resource;
 
@@ -30,27 +31,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private FuryAuthenticationSuccessHandler authenticationSuccessHandler;
 
-    /** 依赖注入自定义的登录失败处理器 */
     @Autowired
     private FuryAuthenticationFailureHandler furyAuthenticationFailureHandler;
 
     @Autowired
     private RestAccessDeniedHandler accessDeniedHandler;
 
+    @Autowired
+    private  JwtTokenFilter jwtTokenFilter;
+
     @Override //配置策略
     protected void configure(HttpSecurity http) throws Exception {
-        /*super.configure(http);
-        http.csrf().disable();
-        http.authorizeRequests()
-                .anyRequest().authenticated()
-                .and()    .anyRequest().authenticated().and()
-                .httpBasic()
-                .and().formLogin().defaultSuccessUrl("/index")
-                .and().logout().logoutSuccessUrl("/login");*/
-
             http.formLogin()
                 .loginProcessingUrl("/login")
-                //成功处理类
                 .successHandler(authenticationSuccessHandler)
                 .failureHandler(furyAuthenticationFailureHandler)
                 .and().authorizeRequests()
@@ -65,9 +58,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().accessDeniedHandler(accessDeniedHandler)
                 .and()
                 //添加JWT filter
-                .addFilter(new JwtTokenFilter(authenticationManager()))
+                .addFilterBefore(jwtTokenFilter, BasicAuthenticationFilter.class)
                 //关闭跨站请求防护
                 .csrf().disable();
+                // 禁用缓存
+                http.headers().cacheControl();
     }
 
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -85,10 +80,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 "/swagge‌​r-ui.html");
     }
 
-    @Bean //密码加密
+    //密码加密
+    @Bean
     public BCryptPasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
-
 
 }

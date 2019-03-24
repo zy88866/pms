@@ -7,11 +7,11 @@ import com.fzy.scm.utils.JwtTokenUtil;
 import com.fzy.scm.utils.ResponseUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -27,7 +27,8 @@ import java.util.List;
  * @author: fzy
  * @date: 2019/03/23 11:50:41
  **/
-public class JwtTokenFilter extends BasicAuthenticationFilter {
+@Component
+public class JwtTokenFilter extends OncePerRequestFilter {
 
     private static final String TOKEN_HEADER = "Authorization";
     private static final String TOKEN_PREFIX = "Bearer ";
@@ -35,27 +36,20 @@ public class JwtTokenFilter extends BasicAuthenticationFilter {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
-    public JwtTokenFilter(AuthenticationManager authenticationManager) {
-        super(authenticationManager);
-    }
-
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String token = getToken(request);
+    protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws ServletException, IOException {
+        String token = getToken(req);
         //判断Token 是否过期
         if(StringUtils.isEmpty(token) || jwtTokenUtil.isTokenExpired(token)) {
-            ResponseUtil.out(response,Result.failure(RestCode.TOKEN_EXPIRE));
+            ResponseUtil.out(res,Result.failure(RestCode.TOKEN_EXPIRE));
+            return;
         }
-        try {
-            User user = jwtTokenUtil.parseUserToken(token);
-            List<GrantedAuthority> authorities = new ArrayList<>();
-            UsernamePasswordAuthenticationToken userToken=new
-                    UsernamePasswordAuthenticationToken(user,null,authorities);
-            SecurityContextHolder.getContext().setAuthentication(userToken);
-        }catch (Exception e){
-            ResponseUtil.out(response,Result.failure("token 解析出错"));
-        }
-        filterChain.doFilter(request, response);
+        User user = jwtTokenUtil.parseUserToken(token);
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        UsernamePasswordAuthenticationToken userToken=new
+                UsernamePasswordAuthenticationToken(user,null,authorities);
+        SecurityContextHolder.getContext().setAuthentication(userToken);
+        chain.doFilter(req, res);
     }
 
     /**
@@ -64,12 +58,9 @@ public class JwtTokenFilter extends BasicAuthenticationFilter {
      * @return
      */
     private static String getToken(HttpServletRequest request){
-        String header = request.getParameter(TOKEN_HEADER);
-        if(StringUtils.isNotBlank(header)){
-            String requestHeader = request.getHeader(TOKEN_HEADER);
-            if(StringUtils.isNotBlank(requestHeader) && requestHeader.startsWith(TOKEN_PREFIX)){
-                return requestHeader.substring(TOKEN_HEADER.length());
-            }
+        String header = request.getHeader(TOKEN_HEADER);
+        if(StringUtils.isNotBlank(header) && header.startsWith(TOKEN_PREFIX)){
+            return header.substring(TOKEN_PREFIX.length());
         }
         return null;
     }
