@@ -24,8 +24,7 @@ public class ResponseUtil {
     public static void out(ServletResponse response,Result result){
         PrintWriter out = null;
         try {
-            response.setCharacterEncoding("UTF-8");
-            response.setContentType("application/json");
+            response.setContentType("application/json;charset=UTF-8");
             out = response.getWriter();
             out.println(JSON.toJSON(result));
         } catch (Exception e) {

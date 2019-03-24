@@ -39,8 +39,14 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws ServletException, IOException {
         String token = getToken(req);
+        //不是jwt 请求放行
+        if(StringUtils.isEmpty(token)){
+            chain.doFilter(req, res);
+            return;
+        }
+
         //判断Token 是否过期
-        if(StringUtils.isEmpty(token) || jwtTokenUtil.isTokenExpired(token)) {
+        if(jwtTokenUtil.isTokenExpired(token)) {
             ResponseUtil.out(res,Result.failure(RestCode.TOKEN_EXPIRE));
             return;
         }

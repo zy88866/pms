@@ -11,7 +11,7 @@ import lombok.Getter;
 @Getter
 public enum RestCode {
     SUCCESS(200,"SUCCESS"),
-    TOKEN_EXPIRE(401,"Token 异常,请重新登陆"),
+    TOKEN_EXPIRE(401,"Token 过期,请重新登陆"),
     SYS_ERROR_EXCEPTION(500,"系统异常,请联系管理员");
 
     private Integer code;
