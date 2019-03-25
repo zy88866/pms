@@ -64,6 +64,13 @@ public class Result<T> {
         return result;
     }
 
+    public static<T> Result failure(Integer code,T data){
+        Result<T> result=new Result<>();
+        result.setCode(code);
+        result.setData(data);
+        return result;
+    }
+
     private void setRestCode(RestCode restCode){
         this.code=restCode.getCode();
         this.message=restCode.getMessage();

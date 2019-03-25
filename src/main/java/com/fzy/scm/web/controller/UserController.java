@@ -1,17 +1,17 @@
 package com.fzy.scm.web.controller;
 
-import com.fasterxml.jackson.annotation.JsonView;
 import com.fzy.scm.dao.UserRepository;
 import com.fzy.scm.entity.rest.Result;
 import com.fzy.scm.entity.security.User;
+import com.fzy.scm.service.Impl.UserDetailsServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
@@ -24,8 +24,10 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
+    @Resource(name="userService")
+    private UserDetailsServiceImpl userDetailsService;
+
     @GetMapping
-    @JsonView(User.UserSimpleView.class)
     public List<User> getUser(@PageableDefault(page = 1,size = 20,sort = "userName desc") Pageable pageable){
         System.out.println(pageable.getPageNumber());
         return null;
@@ -38,19 +40,17 @@ public class UserController {
         return user.isPresent()? Result.success(user.get()):Result.failure("获取用户信息失败");
     }
 
-    @ApiOperation(value="添加用户", notes="传入用户实体")
+    @ApiOperation(value="添加用户", notes="用户实体")
     @PostMapping
     public User createUser(@Valid @RequestBody User user){
-        return userRepository.save(user);
+        return userDetailsService.registerUser(user);
     }
-
 
     @ApiOperation( "获取当前登录用户信息")
     @GetMapping("/info")
     public Result getUserInfo(){
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Optional<User> dbUser = userRepository.findByUsername(user.getUsername());
-        return dbUser.isPresent()? Result.success(dbUser.get()):Result.failure("获取用户信息失败");
+        Optional<User> currUserInfo = userDetailsService.getCurrUserInfo();
+        return currUserInfo.isPresent()? Result.success(currUserInfo.get()):Result.failure("获取用户信息失败");
     }
 
 }
