@@ -1,4 +1,4 @@
-package com.fzy.scm.web.controller.api;
+package com.fzy.scm.web.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fzy.scm.dao.UserRepository;
