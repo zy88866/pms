@@ -5,6 +5,7 @@ import com.fzy.scm.entity.rest.Result;
 import com.fzy.scm.entity.security.User;
 import com.fzy.scm.service.Impl.UserDetailsServiceImpl;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Api(value = "用户接口",description = "用户相关的接口")
@@ -42,8 +44,8 @@ public class UserController {
 
     @ApiOperation(value="添加用户", notes="用户实体")
     @PostMapping
-    public User createUser(@Valid @RequestBody User user){
-        return userDetailsService.registerUser(user);
+    public Result createUser(@Valid @RequestBody User user){
+        return Objects.isNull(userDetailsService.registerUser(user))?Result.failure("添加用户失败"): Result.success();
     }
 
     @ApiOperation( "获取当前登录用户信息")
@@ -51,6 +53,13 @@ public class UserController {
     public Result getUserInfo(){
         Optional<User> currUserInfo = userDetailsService.getCurrUserInfo();
         return currUserInfo.isPresent()? Result.success(currUserInfo.get()):Result.failure("获取用户信息失败");
+    }
+
+    @DeleteMapping("/{id:\\d+}")
+    @ApiModelProperty(value = "锁定用户",notes = "根据id 删除用户")
+    public Result deleteUser(@PathVariable Long id){
+        userDetailsService.lockUser(id);
+        return Result.success();
     }
 
 }

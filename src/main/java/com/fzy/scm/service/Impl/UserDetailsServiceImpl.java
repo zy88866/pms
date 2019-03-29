@@ -1,6 +1,7 @@
 package com.fzy.scm.service.Impl;
 
 import com.fzy.scm.dao.UserRepository;
+import com.fzy.scm.entity.enums.DeleteFlag;
 import com.fzy.scm.entity.security.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -10,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -55,6 +57,15 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         //密码加密
        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
        return userRepository.save(user);
+    }
+
+      /**
+     * 锁定用户
+     * @param id
+     */
+    @Transactional
+    public void lockUser(Long id){
+        userRepository.lockUser(id);
     }
 
 

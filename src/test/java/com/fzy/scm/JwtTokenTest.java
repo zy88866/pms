@@ -10,7 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 /**
- * @program: JwtTest
+ * @program: JwtTokenTest
  * @description: jwt toekn 测试
  * @author: fzy
  * @date: 2019/03/23 11:32:23
@@ -18,7 +18,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Slf4j
-public class JwtTest {
+public class JwtTokenTest {
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
