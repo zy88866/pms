@@ -14,5 +14,4 @@ public class ScmApplication {
         SpringApplication.run(ScmApplication.class, args);
         log.info("--启动完成--");
     }
-
 }
