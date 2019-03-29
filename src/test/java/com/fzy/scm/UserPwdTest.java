@@ -10,18 +10,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 
 /**
- * @program: PasswordTest
+ * @program: UserPwdTest
  * @description:
  * @author: fzy
  * @date: 2019/03/17 13:01:10
  **/
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class PasswordTest {
+public class UserPwdTest {
 
     @Autowired
     private UserRepository userRepository;
@@ -54,5 +55,11 @@ public class PasswordTest {
     @Test
     public void findUser(){
         userRepository.findByUsername("admin").ifPresent(System.out::println);
+    }
+
+    @Test
+    @Transactional
+    public void lock(){
+        userRepository.lockUser(23L);
     }
  }
