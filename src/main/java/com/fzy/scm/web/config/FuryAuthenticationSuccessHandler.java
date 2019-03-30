@@ -28,7 +28,7 @@ public class FuryAuthenticationSuccessHandler implements AuthenticationSuccessHa
     private JwtTokenUtil jwtTokenUtil;
 
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws ServletException, IOException {
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
         User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String token = jwtTokenUtil.generateToken(principal);
         ResponseUtil.out(response, Result.success(token));

@@ -49,6 +49,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .failureHandler(furyAuthenticationFailureHandler).and()
              //拦截全部请求
             .authorizeRequests().anyRequest().authenticated().and()
+            .cors().and()
             //关闭跨站请求防护
             .csrf().disable()
             //前后端分离采用JWT 不需要session
