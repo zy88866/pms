@@ -2,15 +2,18 @@ package com.fzy.scm.entity.security;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.collect.Lists;
+import io.swagger.annotations.ApiModel;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import java.util.Collection;
 import java.util.HashSet;
@@ -27,9 +30,8 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name="t_user")
+@ApiModel("用户")
 public class User extends Base implements UserDetails {
-
-    private static final long serialVersionUID = 7320336762784228900L;
 
     @NotBlank(message = "用户名不能为空")
     @Column(unique = true)
@@ -48,8 +50,8 @@ public class User extends Base implements UserDetails {
     @NotBlank(message = "名字不能为空")
     private String realName;
 
-    @JsonIgnore
-    @ManyToMany(cascade = {CascadeType.DETACH},fetch = FetchType.EAGER)
+    @NotEmpty(message = "角色不能为空")
+    @ManyToMany(cascade = {CascadeType.REFRESH},fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_role",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
@@ -59,10 +61,10 @@ public class User extends Base implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<GrantedAuthority> auth = new HashSet<>();
-     //   List<Role> roles = Lists.newArrayList(this.getRoles());
-//        for (Role role : roles) {
-//                auth.add(new SimpleGrantedAuthority(role.getName()));
-//        }
+        List<Role> roles = Lists.newArrayList(this.getRoles());
+        for (Role role : roles) {
+                auth.add(new SimpleGrantedAuthority(role.getName()));
+        }
         return auth;
     }
 

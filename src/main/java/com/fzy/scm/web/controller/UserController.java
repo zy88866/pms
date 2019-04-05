@@ -1,18 +1,16 @@
 package com.fzy.scm.web.controller;
 
 import com.fzy.scm.dao.UserRepository;
+import com.fzy.scm.entity.dto.UserDto;
 import com.fzy.scm.entity.rest.Result;
 import com.fzy.scm.entity.security.User;
-import com.fzy.scm.service.Impl.UserDetailsServiceImpl;
+import com.fzy.scm.service.UserService;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
-
-import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Objects;
@@ -26,8 +24,8 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-    @Resource(name="userService")
-    private UserDetailsServiceImpl userDetailsService;
+    @Autowired
+    private UserService userService;
 
     @GetMapping
     public List<User> getUser(@PageableDefault(page = 1,size = 20,sort = "userName desc") Pageable pageable){
@@ -45,20 +43,20 @@ public class UserController {
     @ApiOperation(value="添加用户", notes="用户实体")
     @PostMapping
     public Result createUser(@Valid @RequestBody User user){
-        return Objects.isNull(userDetailsService.registerUser(user))?Result.failure("添加用户失败"): Result.success();
+        return Objects.isNull(userService.registerUser(user))?Result.failure("添加用户失败"): Result.success();
     }
 
     @ApiOperation( "获取当前登录用户信息")
     @GetMapping("/info")
     public Result getUserInfo(){
-        Optional<User> currUserInfo = userDetailsService.getCurrUserInfo();
+        Optional<UserDto> currUserInfo = userService.getCurrUserInfo();
         return currUserInfo.isPresent()? Result.success(currUserInfo.get()):Result.failure("获取用户信息失败");
     }
 
     @DeleteMapping("/{id:\\d+}")
-    @ApiModelProperty(value = "锁定用户",notes = "根据id 删除用户")
+    @ApiOperation(value = "锁定用户",notes = "根据id 删除用户")
     public Result deleteUser(@PathVariable Long id){
-        userDetailsService.lockUser(id);
+        userService.lockUser(id);
         return Result.success();
     }
 

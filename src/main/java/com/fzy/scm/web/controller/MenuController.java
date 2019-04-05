@@ -1,21 +1,15 @@
 package com.fzy.scm.web.controller;
 
 import com.fzy.scm.entity.dto.MenuDTO;
-import com.fzy.scm.entity.mapper.MenuMapper;
 import com.fzy.scm.entity.rest.Result;
-import com.fzy.scm.entity.security.Base;
 import com.fzy.scm.entity.security.Menu;
-import com.fzy.scm.entity.security.User;
-import com.fzy.scm.service.Impl.UserDetailsServiceImpl;
+import com.fzy.scm.service.UserService;
 import com.fzy.scm.service.MenuService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 /**
  * @program: MenuController
@@ -29,17 +23,16 @@ import java.util.Optional;
 public class MenuController {
 
     @Autowired
-    private UserDetailsServiceImpl userService;
+    private UserService userService;
 
     @Autowired
     private MenuService menuService;
 
 
     public Result buildMenu(){
-        Optional<User> currUserInfo = userService.getCurrUserInfo();
+        //Optional<Userd> currUserInfo = userService.getCurrUserInfo();
         return null;
     }
-
 
     @PostMapping
     @ApiOperation(value = "添加菜单",notes = "添加菜单")

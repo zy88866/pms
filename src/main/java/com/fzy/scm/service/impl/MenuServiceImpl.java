@@ -1,4 +1,4 @@
-package com.fzy.scm.service.Impl;
+package com.fzy.scm.service.impl;
 
 import com.fzy.scm.dao.MenuRepository;
 import com.fzy.scm.entity.dto.MenuDTO;

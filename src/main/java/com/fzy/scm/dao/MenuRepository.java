@@ -1,8 +1,12 @@
 package com.fzy.scm.dao;
 
 import com.fzy.scm.entity.security.Menu;
+import org.hibernate.sql.Delete;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

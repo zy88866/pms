@@ -3,6 +3,9 @@ package com.fzy.scm.web.config;
 import com.fzy.scm.entity.enums.RestCode;
 import com.fzy.scm.entity.rest.Result;
 import com.fzy.scm.entity.security.User;
+import com.fzy.scm.exception.SystemErrorException;
+import com.fzy.scm.service.UserService;
+import com.fzy.scm.service.impl.UserServiceImpl;
 import com.fzy.scm.utils.JwtTokenUtil;
 import com.fzy.scm.utils.ResponseUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -13,6 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import javax.annotation.Resource;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @program: JwtAuthenticationTokenFilter
@@ -36,6 +41,9 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
+    @Autowired
+    private UserService userService;
+
     @Override
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws ServletException, IOException {
         String token = getToken(req);
@@ -50,10 +58,11 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             ResponseUtil.out(res,Result.failure(RestCode.TOKEN_EXPIRE));
             return;
         }
-        User user = jwtTokenUtil.parseUserToken(token);
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        UsernamePasswordAuthenticationToken userToken=new
-                UsernamePasswordAuthenticationToken(user,null,authorities);
+
+        //数据库查询当前用户信息
+        User user = userService.getUserByUsername(jwtTokenUtil.parseUserToken(token)
+                .getUsername()).orElseThrow(() -> new SystemErrorException("用户异常"));
+        UsernamePasswordAuthenticationToken userToken=new UsernamePasswordAuthenticationToken(user,null,user.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(userToken);
         chain.doFilter(req, res);
     }

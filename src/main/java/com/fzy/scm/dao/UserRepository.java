@@ -12,14 +12,7 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User,Long> {
 
-    @Override
-    Optional<User> findById(Long id);
-
-    @Override
-    <S extends User> S save(S entity);
-
     Optional<User> findByUsername(String username);
-
 
     @Modifying
     @Query(value ="update User set deleteFlag=1 where id=:id")

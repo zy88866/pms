@@ -29,9 +29,7 @@ public class JwtTokenUtil implements Serializable {
      */
     private static final String SECRET="scm_token";
 
-    private static final String CLAIM_KEY_ID = "id";
     private static final String CLAIM_KEY_USERNAME = "username";
-    private static final String CLAIM_KEY_REAL_NAME = "realName";
 
     /**
      * 生成 Token
@@ -40,9 +38,7 @@ public class JwtTokenUtil implements Serializable {
      */
     public String generateToken(User user){
         Claims map= new DefaultClaims();
-        map.put(CLAIM_KEY_ID,user.getId());
         map.put(CLAIM_KEY_USERNAME,user.getUsername());
-        map.put(CLAIM_KEY_REAL_NAME,user.getRealName());
         return generateToken(map);
     }
 
@@ -54,9 +50,7 @@ public class JwtTokenUtil implements Serializable {
     public User parseUserToken(String token){
         Claims claims = parseToken(token);
         User user=new User();
-        user.setId(Long.parseLong(String.valueOf(claims.get(CLAIM_KEY_ID))));
         user.setUsername((String) claims.get(CLAIM_KEY_USERNAME));
-        user.setRealName((String) claims.get(CLAIM_KEY_REAL_NAME));
         return user;
     }
 

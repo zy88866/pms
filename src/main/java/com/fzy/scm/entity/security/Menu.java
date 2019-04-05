@@ -1,12 +1,13 @@
 package com.fzy.scm.entity.security;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fzy.scm.entity.enums.Constants;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-import sun.plugin2.message.Message;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,6 +27,8 @@ import java.util.Set;
 @Setter
 @Table(name = "t_menu")
 @ApiModel("菜单")
+@SQLDelete(sql = "update t_menu set delete_flag="+Constants.DELETED+" where id= ?")
+@Where(clause = "delete_flag="+ Constants.NORMEL)
 public class Menu extends Base {
 
     @NotBlank(message = "菜单名称不能为空")
