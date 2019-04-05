@@ -37,10 +37,6 @@ public class Menu extends Base {
     @ApiModelProperty("菜单名称")
     private String name;
 
-    @Column(unique = true)
-    @ApiModelProperty("排序")
-    private Long sort;
-
     @NotBlank(message = "url 不能为空")
     @ApiModelProperty("跳转路径")
     private String path;
@@ -53,7 +49,6 @@ public class Menu extends Base {
     private String component;
 
     @ApiModelProperty("父id")
-    @Column(name = "pid",nullable = false)
     private Long pid;
 
     @ManyToMany(mappedBy = "menus")
