@@ -1,7 +1,7 @@
 server:
   port: 8080
   servlet:
-    context-path: /scm
+    context-path: /pms
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/demo?characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false

@@ -43,7 +43,7 @@
     <!--</appender>-->
 
     <!-- 将控制指定name包下的所有类的日志的打印，通过level设置打印级别 -->
-    <logger name="com.fzy.scm" level="debug" additivity="false">
+    <logger name="com.fzy.pms" level="debug" additivity="false">
         <appender-ref ref="STDOUT"/>
     </logger>
 
