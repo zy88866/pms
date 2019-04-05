@@ -24,6 +24,6 @@ public class UserDto {
 
     private String realName;
 
-    private List<Role> roles;
+    private Role role;
 
 }

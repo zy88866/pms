@@ -2,6 +2,8 @@ package com.fzy.scm.service;
 
 import com.fzy.scm.entity.security.Role;
 
+import java.util.List;
+
 /**
  * @program: RoleService
  * @description:
@@ -28,5 +30,11 @@ public interface RoleService {
      * @param id
      */
     void delete(Long id);
+
+    /**
+     * 查询全部的角色
+     * @return
+     */
+    List<Role> findAll();
 
 }

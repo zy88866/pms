@@ -1,11 +1,12 @@
 package com.fzy.scm.entity.security;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fzy.scm.entity.enums.Constants;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.Setter;
-
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Set;
@@ -16,11 +17,13 @@ import java.util.Set;
  * @author: fzy
  * @date: 2019/03/17 12:13:14
  **/
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name="t_role")
-@Getter
-@Setter
+@Data
 @ApiModel("角色")
+@SQLDelete(sql = "update t_role set delete_flag="+ Constants.DELETED+" where id= ?")
+@Where(clause = "delete_flag="+ Constants.NORMEL)
 public class Role extends Base {
 
     @Column(length = 25)
@@ -32,10 +35,6 @@ public class Role extends Base {
     @NotBlank(message = "备注不能为空")
     private String remark;
 
-    @ManyToMany(mappedBy = "roles")
-    @JsonIgnore
-    private Set<User> users;
-
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "roles_menus",
@@ -43,12 +42,4 @@ public class Role extends Base {
             inverseJoinColumns = {@JoinColumn(name = "menu_id",referencedColumnName = "id")})
     private Set<Menu> menus;
 
-
-    @Override
-    public String toString() {
-        return "Role{" +
-                "id=" + super.getId() +
-                ", name='" + name + '\'' +
-                '}';
-    }
 }

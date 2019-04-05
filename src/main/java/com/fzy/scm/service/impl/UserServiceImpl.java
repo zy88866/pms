@@ -1,8 +1,10 @@
 package com.fzy.scm.service.impl;
 
+import com.fzy.scm.dao.RoleRepository;
 import com.fzy.scm.dao.UserRepository;
 import com.fzy.scm.entity.dto.UserDto;
 import com.fzy.scm.entity.mapper.UserMapper;
+import com.fzy.scm.entity.security.Role;
 import com.fzy.scm.entity.security.User;
 import com.fzy.scm.exception.SystemErrorException;
 import com.fzy.scm.service.UserService;
@@ -35,6 +37,9 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Autowired
+    private RoleRepository roleRepository;
+
+    @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Resource
@@ -63,7 +68,13 @@ public class UserServiceImpl implements UserService {
        if (userRepository.findByUsername(user.getUsername()).isPresent()){
            throw new SystemErrorException("用户名已存在");
        }
-       return userRepository.save(user);
+
+       if(Objects.isNull(user.getRole())){
+           throw new SystemErrorException("角色不能为空");
+       }
+       roleRepository.findById(user.getRole().getId())
+               .orElseThrow(()->new SystemErrorException("角色不存在"));
+        return userRepository.save(user);
     }
 
     @Override

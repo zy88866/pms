@@ -25,3 +25,8 @@
  - @Max(value=) 值必须小于value,不能放在字符串上
  - @Min(value=) 值必须大于value,不能放在字符串上  
 
+### 初始化脚本
+```sql
+INSERT INTO t_role(`id`, `create_time`, `delete_flag`, `update_time`, `name`, `remark`) VALUES (1, '2019-04-05 14:14:45', 0, '2019-04-05 14:14:45', '超级管理员', '我是超管,我怕谁');
+INSERT INTO `t_user`(`id`, `create_time`, `delete_flag`, `update_time`, `email`, `password`, `phone`, `real_name`, `username`, `role_id`) VALUES (2, '2019-03-23 19:55:36', 0, '2019-03-23 19:55:36', NULL, '$2a$10$cKEs3EJrpXOND7HIknIjquy0yFx990fNmFtIrW9oMpKhEMMZkwq2.', NULL, '张三', 'admin', 1);
+```

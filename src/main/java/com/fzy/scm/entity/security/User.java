@@ -1,24 +1,16 @@
 package com.fzy.scm.entity.security;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.google.common.collect.Lists;
+import com.fzy.scm.entity.enums.Constants;
+import com.google.common.collect.Sets;
 import io.swagger.annotations.ApiModel;
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.validator.constraints.Length;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.*;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 /**
  * @program: User
@@ -26,8 +18,8 @@ import java.util.Set;
  * @author: fzy
  * @date: 2019/03/17 12:13:14
  **/
-@Getter
-@Setter
+@EqualsAndHashCode(callSuper = true)
+@Data
 @Entity
 @Table(name="t_user")
 @ApiModel("用户")
@@ -50,22 +42,13 @@ public class User extends Base implements UserDetails {
     @NotBlank(message = "名字不能为空")
     private String realName;
 
-    @NotEmpty(message = "角色不能为空")
-    @ManyToMany(cascade = {CascadeType.REFRESH},fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "user_role",
-            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
-    private Set<Role> roles;
+    @ManyToOne(cascade = CascadeType.REFRESH,fetch = FetchType.EAGER)
+    @JoinColumn(name = "role_id", referencedColumnName="id",nullable = false)
+    private Role role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Set<GrantedAuthority> auth = new HashSet<>();
-        List<Role> roles = Lists.newArrayList(this.getRoles());
-        for (Role role : roles) {
-                auth.add(new SimpleGrantedAuthority(role.getName()));
-        }
-        return auth;
+        return Sets.newHashSet(new SimpleGrantedAuthority(role.getName()));
     }
 
     @Override
@@ -90,15 +73,7 @@ public class User extends Base implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return getDeleteFlag()==0;
+        return getDeleteFlag()==Integer.parseInt(Constants.NORMEL);
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + super.getId() +
-                ", username='" + username + '\''+
-                ", realName='" + realName + '\''+
-                '}';
-    }
 }

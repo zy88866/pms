@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fzy.scm.entity.enums.Constants;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
@@ -22,9 +24,9 @@ import java.util.Set;
  * @author: fzy
  * @date: 2019/03/18 22:16:27
  **/
+@EqualsAndHashCode(callSuper = true)
 @Entity
-@Getter
-@Setter
+@Data
 @Table(name = "t_menu")
 @ApiModel("菜单")
 @SQLDelete(sql = "update t_menu set delete_flag="+Constants.DELETED+" where id= ?")

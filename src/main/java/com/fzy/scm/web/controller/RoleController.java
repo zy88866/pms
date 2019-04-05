@@ -38,11 +38,17 @@ public class RoleController {
         return Result.success();
     }
 
-    @DeleteMapping("{id:\\d+}")
+    @DeleteMapping("/{id:\\d+}")
     @ApiOperation(value = "删除角色",notes = "根据id 删除角色")
     public Result deleteRole(@PathVariable Long id){
         roleService.delete(id);
         return Result.success();
+    }
+
+    @GetMapping("/findAll")
+    @ApiOperation(value = "查询全部角色",notes = "查询全部角色")
+    public Result findAll(){
+        return Result.success(roleService.findAll());
     }
 
 

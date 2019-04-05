@@ -6,11 +6,12 @@ import com.google.common.collect.Sets;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashSet;
 
 
@@ -42,10 +43,22 @@ public class ExceptionProcessor {
      * @returns
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(value = HttpStatus.OK)
     public Result validationBodyException(MethodArgumentNotValidException e){
         HashSet<String> set= Sets.newHashSet();
         e.getBindingResult().getAllErrors().forEach(p->set.add(p.getDefaultMessage()));
         return Result.failure(HttpStatus.INTERNAL_SERVER_ERROR.value(),set);
+    }
+
+    /**
+     * 接口不存在
+     * @param e
+     * @return
+     */
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    @ResponseStatus(value = HttpStatus.METHOD_NOT_ALLOWED)
+    public Result interfaceNotFoundException(HttpServletRequest request){
+        return Result.failure(HttpStatus.METHOD_NOT_ALLOWED.value(),request.getRequestURI()+" 无效的请求");
     }
 
     /**

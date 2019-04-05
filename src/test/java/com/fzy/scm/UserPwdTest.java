@@ -39,16 +39,17 @@ public class UserPwdTest {
     //@Transactional
     public void addUser(){
         Role role=new Role();
+        role.setId(1L);
         role.setName("管理员");
         role.setDeleteFlag(0);
-        role.setCreateTime(new Date());
 
         User user=new User();
-        user.setUsername("admin");
+        user.setUsername("admin22");
         user.setPassword(passwordEncoder.encode("admin"));
         user.setRealName("张三");
+
         user.setDeleteFlag(0);
-        user.setRoles(Sets.newHashSet(role));
+        user.setRole(role);
         userRepository.save(user);
     }
 

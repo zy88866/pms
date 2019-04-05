@@ -62,8 +62,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         //数据库查询当前用户信息
         User user = userService.getUserByUsername(jwtTokenUtil.parseUserToken(token)
                 .getUsername()).orElseThrow(() -> new SystemErrorException("用户异常"));
-        UsernamePasswordAuthenticationToken userToken=new UsernamePasswordAuthenticationToken(user,null,user.getAuthorities());
-        SecurityContextHolder.getContext().setAuthentication(userToken);
+        SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(user,null,user.getAuthorities()));
         chain.doFilter(req, res);
     }
 
