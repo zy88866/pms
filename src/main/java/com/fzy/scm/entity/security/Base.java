@@ -11,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
@@ -20,8 +22,9 @@ import java.util.Date;
 @ApiModel("Base")
 public class Base implements Serializable {
 
-    @ApiModelProperty("id")
     @Id
+    @ApiModelProperty("id")
+    @NotNull(groups = {Update.class},message = "ID 不能为空")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -39,4 +42,6 @@ public class Base implements Serializable {
     @JsonIgnore
     @NotNull
     private int deleteFlag;
+
+    public interface Update{}
 }

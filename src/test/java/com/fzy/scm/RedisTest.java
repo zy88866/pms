@@ -30,7 +30,7 @@ public class RedisTest {
 
     @Test
     public void test(){
-        Cost cost=new Cost(1l,"物业费", Lists.newArrayList());
+        Cost cost=new Cost(1l,"物业费", "sss");
        // redisTemplate.opsForValue().set("aa",cost);
         costRepository.save(cost);
     }

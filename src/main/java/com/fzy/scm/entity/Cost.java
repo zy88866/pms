@@ -30,10 +30,10 @@ public class Cost {
     private String costName;
 
     @JsonIgnore
-    @TimeToLive(unit = TimeUnit.MINUTES)
-    private final Long expiration=120L;
+    @TimeToLive
+    private final Long expiration=30L;
 
     @JsonIgnore
-    private List<String> list;
+    private String list;
 
 }

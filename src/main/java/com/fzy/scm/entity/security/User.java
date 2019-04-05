@@ -59,7 +59,7 @@ public class User extends Base implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<GrantedAuthority> auth = new HashSet<>();
-        List<Role> roles = Lists.newArrayList(this.getRoles());
+     //   List<Role> roles = Lists.newArrayList(this.getRoles());
 //        for (Role role : roles) {
 //                auth.add(new SimpleGrantedAuthority(role.getName()));
 //        }
