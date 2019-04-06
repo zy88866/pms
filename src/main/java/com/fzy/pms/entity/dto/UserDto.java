@@ -22,6 +22,6 @@ public class UserDto {
 
     private String realName;
 
-    private Role role;
+    private RoleDto role;
 
 }

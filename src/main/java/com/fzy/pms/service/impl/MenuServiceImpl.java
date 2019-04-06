@@ -1,18 +1,23 @@
 package com.fzy.pms.service.impl;
 
 import com.fzy.pms.dao.MenuRepository;
-import com.fzy.pms.entity.dto.MenuDTO;
+import com.fzy.pms.entity.dto.MenuDto;
+import com.fzy.pms.entity.dto.UserDto;
 import com.fzy.pms.entity.mapper.MenuMapper;
 import com.fzy.pms.entity.security.Menu;
 import com.fzy.pms.exception.SystemErrorException;
 import com.fzy.pms.service.MenuService;
+import com.fzy.pms.service.UserService;
+import com.google.common.collect.Sets;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
 import javax.annotation.Resource;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @program: MenuServiceImpl
@@ -30,13 +35,29 @@ public class MenuServiceImpl implements MenuService {
     @Resource
     private MenuMapper menuMapper;
 
+    @Autowired
+    private UserService userService;
+
     @Override
-    public MenuDTO findById(Long id) {
-        return menuRepository.findById(id).map(e -> menuMapper.toDto(e)).orElseThrow(()->new SystemErrorException("查询的 菜单 id不存在"));
+    public Set<MenuDto> findByMenuTree() {
+        //分组后的menu列表
+        Map<Long, List<Menu>> menuList = menuRepository.findAll()
+                .stream().collect(Collectors.groupingBy(Menu::getPid));
+        return createTree(0L,menuList);
     }
 
     @Override
-    public MenuDTO create(Menu menu) {
+    public Set<MenuDto> getCurrMenuTree() {
+        if(userService.getCurrUserInfo().isPresent()){
+            UserDto userInfo = userService.getCurrUserInfo().get();
+            List<Menu> menus = menuRepository.findByRole(userInfo.getRole().getId());
+            return Sets.newHashSet(menuMapper.toDto(menus));
+        }
+        throw new SystemErrorException("当前用户不存在!!!");
+    }
+
+    @Override
+    public MenuDto create(Menu menu) {
         return menuMapper.toDto(menuRepository.save(menu));
     }
 
@@ -65,5 +86,21 @@ public class MenuServiceImpl implements MenuService {
         menuRepository.deleteById(id);
     }
 
+    /**
+     * 构建菜单树
+     * @param parentId
+     * @param menus
+     * @return
+     */
+    private Set<MenuDto> createTree(Long parentId, Map<Long, List<Menu>> menus){
+        return menus.get(parentId).stream().map(e->{
+            MenuDto menuDTO=new MenuDto();
+            BeanUtils.copyProperties(e,menuDTO);
+            if(!Objects.isNull(menus.get(e.getId()))){
+                menuDTO.setChildren(createTree(e.getId() ,menus));
+            }
+            return menuDTO;
+        }).collect(Collectors.toSet());
+    }
 
 }

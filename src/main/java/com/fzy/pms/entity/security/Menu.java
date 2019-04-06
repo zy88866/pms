@@ -4,11 +4,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fzy.pms.entity.enums.Constants;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
@@ -21,9 +22,9 @@ import java.util.Set;
  * @author: fzy
  * @date: 2019/03/18 22:16:27
  **/
-@EqualsAndHashCode(callSuper = true)
 @Entity
-@Data
+@Getter
+@Setter
 @Table(name = "t_menu")
 @ApiModel("菜单")
 @SQLDelete(sql = "update t_menu set delete_flag="+Constants.DELETED+" where id= ?")
@@ -46,6 +47,7 @@ public class Menu extends Base {
     private String component;
 
     @ApiModelProperty("父id")
+    @Column(columnDefinition="bigint default 0",nullable = false)
     private Long pid;
 
     @ManyToMany(mappedBy = "menus")

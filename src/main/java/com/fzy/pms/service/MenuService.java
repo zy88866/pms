@@ -1,7 +1,9 @@
 package com.fzy.pms.service;
 
-import com.fzy.pms.entity.dto.MenuDTO;
+import com.fzy.pms.entity.dto.MenuDto;
 import com.fzy.pms.entity.security.Menu;
+
+import java.util.Set;
 
 /**
  * @program: MenuService
@@ -12,18 +14,23 @@ import com.fzy.pms.entity.security.Menu;
 public interface MenuService {
 
     /**
-     * 根据id 查询菜单
-     * @param id
+     * 根据菜单树
      * @return
      */
-    MenuDTO findById(Long id);
+    Set<MenuDto> findByMenuTree();
+
+    /**
+     * 查询当前用户菜单列表
+     * @return
+     */
+    Set<MenuDto> getCurrMenuTree();
 
     /**
      * 创建菜单
      * @param menu
      * @return
      */
-    MenuDTO create(Menu menu);
+    MenuDto create(Menu menu);
 
     /**
      * 更新菜单

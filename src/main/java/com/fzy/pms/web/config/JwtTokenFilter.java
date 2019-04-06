@@ -13,12 +13,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * @program: JwtAuthenticationTokenFilter
@@ -41,22 +41,22 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws ServletException, IOException {
         String token = getToken(req);
-        //不是jwt 请求放行
-        if(StringUtils.isEmpty(token)){
-            chain.doFilter(req, res);
-            return;
+
+        String username=null;
+        if(!StringUtils.isEmpty(token)){
+             username = jwtTokenUtil.getUsernameFromToken(token);
+             if(StringUtils.isBlank(username)){
+                 ResponseUtil.out(res, Result.failure(RestCode.TOKEN_EXPIRE));
+                 return;
+             }
         }
 
-        //判断Token 是否过期
-        if(jwtTokenUtil.isTokenExpired(token)) {
-            ResponseUtil.out(res,Result.failure(RestCode.TOKEN_EXPIRE));
-            return;
+        if(StringUtils.isNotBlank(username)&&Objects.isNull(SecurityContextHolder.getContext().getAuthentication())){
+            //数据库查询当前用户信息
+            User user = userService.getUserByUsername(username)
+                    .orElseThrow(() -> new SystemErrorException("用户异常"));
+            SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(user,null,user.getAuthorities()));
         }
-
-        //数据库查询当前用户信息
-        User user = userService.getUserByUsername(jwtTokenUtil.parseUserToken(token)
-                .getUsername()).orElseThrow(() -> new SystemErrorException("用户异常"));
-        SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(user,null,user.getAuthorities()));
         chain.doFilter(req, res);
     }
 

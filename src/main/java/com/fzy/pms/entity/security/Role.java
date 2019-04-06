@@ -5,6 +5,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 import javax.persistence.*;
@@ -17,10 +19,12 @@ import java.util.Set;
  * @author: fzy
  * @date: 2019/03/17 12:13:14
  **/
-@EqualsAndHashCode(callSuper = true)
+
+
 @Entity
 @Table(name="t_role")
-@Data
+@Getter
+@Setter
 @ApiModel("角色")
 @SQLDelete(sql = "update t_role set delete_flag="+ Constants.DELETED+" where id= ?")
 @Where(clause = "delete_flag="+ Constants.NORMEL)
@@ -35,7 +39,7 @@ public class Role extends Base {
     @NotBlank(message = "备注不能为空")
     private String remark;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
     @JoinTable(
             name = "roles_menus",
             joinColumns = {@JoinColumn(name = "role_id",referencedColumnName = "id")},

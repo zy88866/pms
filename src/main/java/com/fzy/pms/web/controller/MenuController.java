@@ -1,9 +1,8 @@
 package com.fzy.pms.web.controller;
 
-import com.fzy.pms.entity.dto.MenuDTO;
+import com.fzy.pms.entity.dto.MenuDto;
 import com.fzy.pms.entity.rest.Result;
 import com.fzy.pms.entity.security.Menu;
-import com.fzy.pms.service.UserService;
 import com.fzy.pms.service.MenuService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -23,21 +22,12 @@ import org.springframework.web.bind.annotation.*;
 public class MenuController {
 
     @Autowired
-    private UserService userService;
-
-    @Autowired
     private MenuService menuService;
-
-
-    public Result buildMenu(){
-        //Optional<Userd> currUserInfo = userService.getCurrUserInfo();
-        return null;
-    }
 
     @PostMapping
     @ApiOperation(value = "添加菜单",notes = "添加菜单")
     public Result create(@Validated @RequestBody Menu menu){
-        MenuDTO menuDTO = menuService.create(menu);
+        MenuDto menuDTO = menuService.create(menu);
         return Result.success(menuDTO);
     }
 
@@ -53,6 +43,12 @@ public class MenuController {
     public Result deleteMenu(@PathVariable Long id){
         menuService.delete(id);
         return Result.success();
+    }
+
+    @GetMapping("/menuList")
+    @ApiOperation(value = "查询菜单列表",notes = "查询当前用户菜单列表")
+    public Result getCurrMenuList(){
+        return Result.success(menuService.getCurrMenuTree());
     }
 
 }
