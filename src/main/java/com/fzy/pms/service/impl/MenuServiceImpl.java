@@ -8,12 +8,12 @@ import com.fzy.pms.entity.security.Menu;
 import com.fzy.pms.exception.SystemErrorException;
 import com.fzy.pms.service.MenuService;
 import com.fzy.pms.service.UserService;
-import com.google.common.collect.Sets;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.thymeleaf.util.ListUtils;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -51,7 +51,10 @@ public class MenuServiceImpl implements MenuService {
         if(userService.getCurrUserInfo().isPresent()){
             UserDto userInfo = userService.getCurrUserInfo().get();
             List<Menu> menus = menuRepository.findByRole(userInfo.getRole().getId());
-            return Sets.newHashSet(menuMapper.toDto(menus));
+            if(!ListUtils.isEmpty(menus)){
+                Map<Long, List<Menu>> listMenu = menus.stream().collect(Collectors.groupingBy(Menu::getPid));
+                return createTree(0L, listMenu);
+            }
         }
         throw new SystemErrorException("当前用户不存在!!!");
     }

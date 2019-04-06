@@ -15,6 +15,28 @@
 ```sql
 INSERT INTO t_role(`id`, `create_time`, `delete_flag`, `update_time`, `name`, `remark`) VALUES (1, '2019-04-05 14:14:45', 0, '2019-04-05 14:14:45', '超级管理员', '我是超管,我怕谁');
 INSERT INTO t_user(`id`, `create_time`, `delete_flag`, `update_time`, `email`, `password`, `phone`, `real_name`, `username`, `role_id`) VALUES (1, '2019-03-23 19:55:36', 0, '2019-03-23 19:55:36', '1010101010@qq.com', '$2a$10$cKEs3EJrpXOND7HIknIjquy0yFx990fNmFtIrW9oMpKhEMMZkwq2.', '18788779966', '张三', 'admin', 1);
+INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, name, path, pid)VALUES (100,now(),0,now(),NULL ,NULL ,'系统管理','/systeam',0 );
+INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, name, path, pid)VALUES (101,now(),0,now(),NULL ,NULL ,'用户管理','/systeam/user',100 );
+INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, name, path, pid)VALUES (102,now(),0,now(),NULL ,NULL ,'角色管理','/systeam/role',100 );
+INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, name, path, pid)VALUES (200,now(),0,now(),NULL ,NULL ,'收费管理','/systeam',0 );
+INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, name, path, pid)VALUES (201,now(),0,now(),NULL ,NULL ,'费用设置','/systeam/user',200 );
+INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, name, path, pid)VALUES (202,now(),0,now(),NULL ,NULL ,'充值缴费','/systeam/role',200 );
+INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, name, path, pid)VALUES (300,now(),0,now(),NULL ,NULL ,'资源管理','/systeam',0 );
+INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, name, path, pid)VALUES (301,now(),0,now(),NULL ,NULL ,'房产管理','/systeam/user',300 );
+INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, name, path, pid)VALUES (302,now(),0,now(),NULL ,NULL ,'车位管理','/systeam/role',300 );
+INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, name, path, pid)VALUES (303,now(),0,now(),NULL ,NULL ,'门禁管理','/systeam/role',300 );
+INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, name, path, pid)VALUES (400,now(),0,now(),NULL ,NULL ,'报修管理','/systeam',0 );
+INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, name, path, pid)VALUES (401,now(),0,now(),NULL ,NULL ,'报修申请','/systeam/user',400 );
+INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, name, path, pid)VALUES (402,now(),0,now(),NULL ,NULL ,'报修中心','/systeam/role',400 );
+INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, name, path, pid)VALUES (500,now(),0,now(),NULL ,NULL ,'报表中心','/systeam',0 );
+INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, name, path, pid)VALUES (501,now(),0,now(),NULL ,NULL ,'缴费报表','/systeam/user',500 );
+INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, name, path, pid)VALUES (502,now(),0,now(),NULL ,NULL ,'维修报表','/systeam/role',500 );
+INSERT INTO roles_menus(role_id, menu_id) VALUES (1,100);
+INSERT INTO roles_menus(role_id, menu_id) VALUES (1,101);
+INSERT INTO roles_menus(role_id, menu_id) VALUES (1,102);
+INSERT INTO roles_menus(role_id, menu_id) VALUES (1,200);
+INSERT INTO roles_menus(role_id, menu_id) VALUES (1,201);
+INSERT INTO roles_menus(role_id, menu_id) VALUES (1,202);
 ```
 
 ## 项目笔记
