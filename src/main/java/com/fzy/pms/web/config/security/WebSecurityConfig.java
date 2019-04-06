@@ -1,4 +1,4 @@
-package com.fzy.pms.web.config;
+package com.fzy.pms.web.config.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -30,23 +30,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private UserDetailsService userDetailsService;
 
     @Autowired
-    private FuryAuthenticationSuccessHandler authenticationSuccessHandler;
+    private SecuritySuccessHandler securitySuccessHandler;
 
     @Autowired
-    private FuryAuthenticationFailureHandler furyAuthenticationFailureHandler;
+    private SecurityFailureHandler securityFailureHandler;
 
     @Autowired
     private RestAccessDeniedHandler accessDeniedHandler;
 
     @Autowired
-    private  JwtTokenFilter jwtTokenFilter;
+    private JwtTokenFilter jwtTokenFilter;
 
     @Override //配置策略
     protected void configure(HttpSecurity http) throws Exception {
         http
             .formLogin().loginProcessingUrl("/login")
-            .successHandler(authenticationSuccessHandler)
-            .failureHandler(furyAuthenticationFailureHandler).and()
+            .successHandler(securitySuccessHandler)
+            .failureHandler(securityFailureHandler).and()
              //拦截全部请求
             .authorizeRequests().anyRequest().authenticated().and()
             .cors().and()
@@ -83,7 +83,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public AuthenticationEntryPoint macLoginUrlAuthenticationEntryPoint() {
-        return new MacLoginUrlAuthenticationEntryPoint("/login");
+        return new LoginUrlAuthentication("/login");
     }
 
 }

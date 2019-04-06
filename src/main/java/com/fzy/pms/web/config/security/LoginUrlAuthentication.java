@@ -1,4 +1,4 @@
-package com.fzy.pms.web.config;
+package com.fzy.pms.web.config.security;
 
 import com.fzy.pms.entity.rest.Result;
 import com.fzy.pms.utils.ResponseUtil;
@@ -11,19 +11,19 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * @program: MacLoginUrlAuthenticationEntryPoint
+ * @program: LoginUrlAuthentication
  * @description:
  * @author: fzy
  * @date: 2019/03/25 00:25:30
  **/
-public class MacLoginUrlAuthenticationEntryPoint extends LoginUrlAuthenticationEntryPoint {
+public class LoginUrlAuthentication extends LoginUrlAuthenticationEntryPoint {
 
     /**
      * @param loginFormUrl URL where the login page can be found. Should either be
      *                     relative to the web-app context path (include a leading {@code /}) or an absolute
      *                     URL.
      */
-    public MacLoginUrlAuthenticationEntryPoint(String loginFormUrl) {
+    public LoginUrlAuthentication(String loginFormUrl) {
         super(loginFormUrl);
     }
 

@@ -1,4 +1,4 @@
-package com.fzy.pms.web.config;
+package com.fzy.pms.web.config.redis;
 
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;

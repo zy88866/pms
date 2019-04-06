@@ -1,4 +1,4 @@
-package com.fzy.pms.web.config;
+package com.fzy.pms.web.config.security;
 
 import com.fzy.pms.entity.rest.Result;
 import com.fzy.pms.utils.ResponseUtil;
@@ -15,13 +15,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * @program: FuryAuthenticationFailureHandler
+ * @program: SecurityFailureHandler
  * @description: 登陆失败拦截器
  * @author: fzy
  * @date: 2019/03/23 20:58:31
  **/
 @Component
-public class FuryAuthenticationFailureHandler implements AuthenticationFailureHandler {
+public class SecurityFailureHandler implements AuthenticationFailureHandler {
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) throws IOException, ServletException {

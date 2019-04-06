@@ -1,4 +1,4 @@
-package com.fzy.pms.web.config;
+package com.fzy.pms.web.config.security;
 
 import com.fzy.pms.entity.enums.RestCode;
 import com.fzy.pms.entity.rest.Result;

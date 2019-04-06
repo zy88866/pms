@@ -1,4 +1,4 @@
-package com.fzy.pms.web.config;
+package com.fzy.pms.web.config.security;
 
 import com.fzy.pms.entity.rest.Result;
 import com.fzy.pms.entity.security.User;
@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  * @date: 2019/03/23 20:05:56
  **/
 @Component
-public class FuryAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
+public class SecuritySuccessHandler implements AuthenticationSuccessHandler {
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
