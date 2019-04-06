@@ -1,9 +1,24 @@
 # 物业管理系统
 
-### 前端
- 基于layui 开发
+基于前后端分离开发</br>
+
+
+## 前端技术栈
+1. vue+Element-Ul
  
- ### Hibernate Validator 
+
+## 后端技术栈
+1. springBoot+springSecurity+JPA+Redis
+
+ 
+## 初始化脚本
+```sql
+INSERT INTO t_role(`id`, `create_time`, `delete_flag`, `update_time`, `name`, `remark`) VALUES (1, '2019-04-05 14:14:45', 0, '2019-04-05 14:14:45', '超级管理员', '我是超管,我怕谁');
+INSERT INTO t_user(`id`, `create_time`, `delete_flag`, `update_time`, `email`, `password`, `phone`, `real_name`, `username`, `role_id`) VALUES (1, '2019-03-23 19:55:36', 0, '2019-03-23 19:55:36', NULL, '$2a$10$cKEs3EJrpXOND7HIknIjquy0yFx990fNmFtIrW9oMpKhEMMZkwq2.', NULL, '张三', 'admin', 1);
+```
+
+## 项目笔记
+ ### Validator 常用的检验规则
  - @NotNull 值不能为空
  - @Null 值必须为空
  - @pattern(regex=) 字符串必须匹配正则表达式
@@ -24,9 +39,3 @@
  - @Digits(integer= inclusive=) 数字格式检查 integer 整数部分最大长度 inclusive小数部分最大长度
  - @Max(value=) 值必须小于value,不能放在字符串上
  - @Min(value=) 值必须大于value,不能放在字符串上  
-
-### 初始化脚本
-```sql
-INSERT INTO t_role(`id`, `create_time`, `delete_flag`, `update_time`, `name`, `remark`) VALUES (1, '2019-04-05 14:14:45', 0, '2019-04-05 14:14:45', '超级管理员', '我是超管,我怕谁');
-INSERT INTO `t_user`(`id`, `create_time`, `delete_flag`, `update_time`, `email`, `password`, `phone`, `real_name`, `username`, `role_id`) VALUES (2, '2019-03-23 19:55:36', 0, '2019-03-23 19:55:36', NULL, '$2a$10$cKEs3EJrpXOND7HIknIjquy0yFx990fNmFtIrW9oMpKhEMMZkwq2.', NULL, '张三', 'admin', 1);
-```
