@@ -43,7 +43,8 @@ public class Menu extends Base {
     @ApiModelProperty("图标")
     private String icon;
 
-    @ApiModelProperty("描述")
+    @ApiModelProperty("路由组件")
+    @NotBlank(message = "组件不能为空")
     private String component;
 
     @ApiModelProperty("父id")
