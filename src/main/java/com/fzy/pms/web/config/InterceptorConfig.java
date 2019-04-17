@@ -2,7 +2,11 @@ package com.fzy.pms.web.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.*;
+
+import java.util.List;
 
 /**
  * @program: InterceptorConfig
@@ -48,5 +52,11 @@ public class InterceptorConfig extends WebMvcConfigurationSupport {
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
                 //跨域允许时间
                 .maxAge(3600);
+    }
+
+    @Override
+    protected void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
+        // 注册Spring data jpa pageable的参数分解器
+        argumentResolvers.add(new PageableHandlerMethodArgumentResolver());
     }
 }
