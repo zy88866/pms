@@ -29,21 +29,21 @@ public class CostSettingController {
 
     @GetMapping("/all")
     @ApiOperation(value = "查询全部费用",notes = "查询全部费用")
-    public Result getCost(@PageableDefault(value = 15, sort = { "create_time" }, direction = Sort.Direction.DESC) Pageable pageable){
+    public Result getCost(@PageableDefault(sort = {"createTime"},direction = Sort.Direction.DESC) Pageable pageable){
         Page<CostSetting> allData = costSettingService.findAll(pageable);
         return Result.success(allData);
     }
 
     @PostMapping
     @ApiOperation(value = "添加费用",notes = "添加费用")
-    public Result create(@Validated @RequestBody CostSetting costSetting){
+    public Result create(@Validated(CostSetting.Save.class) @RequestBody CostSetting costSetting){
         costSettingService.create(costSetting);
         return Result.success();
     }
 
     @PutMapping
     @ApiOperation(value = "修改费用",notes = "修改费用")
-    public Result update(@Validated(CostSetting.Update.class) @RequestBody CostSetting cost){
+    public Result updateData(@Validated(CostSetting.Update.class) @RequestBody CostSetting cost){
         costSettingService.update(cost);
         return Result.success();
     }
@@ -54,7 +54,5 @@ public class CostSettingController {
         costSettingService.delete(id);
         return Result.success();
     }
-
-
 
 }
