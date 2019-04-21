@@ -50,6 +50,8 @@ public class InterceptorConfig extends WebMvcConfigurationSupport {
                 .allowCredentials(true)
                 //设置允许的方法
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
+                //允许所有的请求header访问
+                .allowedHeaders("*")
                 //跨域允许时间
                 .maxAge(3600);
     }

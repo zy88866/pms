@@ -1,8 +1,9 @@
 package com.fzy.pms.web.config.security;
 
+import com.fzy.pms.cache.TokenCache;
 import com.fzy.pms.entity.rest.Result;
+import com.fzy.pms.entity.security.JwtToken;
 import com.fzy.pms.entity.security.User;
-import com.fzy.pms.utils.JwtTokenUtil;
 import com.fzy.pms.utils.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -23,12 +24,12 @@ import javax.servlet.http.HttpServletResponse;
 public class SecuritySuccessHandler implements AuthenticationSuccessHandler {
 
     @Autowired
-    private JwtTokenUtil jwtTokenUtil;
+    private TokenCache tokenCache;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
         User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String token = jwtTokenUtil.generateToken(principal);
-        ResponseUtil.out(response, Result.success(token));
+        JwtToken jwtToken = tokenCache.add(principal);
+        ResponseUtil.out(response, Result.success(jwtToken));
     }
 }

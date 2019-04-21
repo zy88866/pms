@@ -1,11 +1,12 @@
 package com.fzy.pms.web.config.security;
 
+import com.fzy.pms.cache.TokenCache;
 import com.fzy.pms.entity.enums.RestCode;
 import com.fzy.pms.entity.rest.Result;
+import com.fzy.pms.entity.security.JwtToken;
 import com.fzy.pms.entity.security.User;
 import com.fzy.pms.exception.SystemErrorException;
 import com.fzy.pms.service.UserService;
-import com.fzy.pms.utils.JwtTokenUtil;
 import com.fzy.pms.utils.ResponseUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -33,10 +35,10 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     private static final String TOKEN_PREFIX = "Bearer ";
 
     @Autowired
-    private JwtTokenUtil jwtTokenUtil;
+    private UserService userService;
 
     @Autowired
-    private UserService userService;
+    private TokenCache tokenCache;
 
     @Override
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws ServletException, IOException {
@@ -44,9 +46,12 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
         String username=null;
         if(!StringUtils.isEmpty(token)){
-             username = jwtTokenUtil.getUsernameFromToken(token);
+             username = tokenCache.getUsername(new JwtToken().setAccessToken(token));
              if(StringUtils.isBlank(username)){
                  ResponseUtil.out(res, Result.failure(RestCode.TOKEN_EXPIRE));
+                 return;
+             }else if(req.getRequestURI().equals("/auth/token")){
+                 chain.doFilter(req, res);
                  return;
              }
         }
@@ -68,7 +73,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     private static String getToken(HttpServletRequest request){
         String header = request.getHeader(TOKEN_HEADER);
         if(StringUtils.isNotBlank(header) && header.startsWith(TOKEN_PREFIX)){
-            return header.substring(TOKEN_PREFIX.length());
+            return  StringUtils.removeStart(header,TOKEN_PREFIX);
         }
         return null;
     }

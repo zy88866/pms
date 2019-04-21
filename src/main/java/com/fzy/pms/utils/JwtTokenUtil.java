@@ -1,5 +1,6 @@
 package com.fzy.pms.utils;
 
+import com.fzy.pms.entity.security.JwtToken;
 import com.fzy.pms.entity.security.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -7,6 +8,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
@@ -24,12 +26,13 @@ public class JwtTokenUtil implements Serializable {
     @Value("${jwt.expiration}")
     private Long expiration;
 
-    /**
-     * 密钥
-     */
-    private static final String SECRET="psm_token";
+    @Value("${jwt.time-out}")
+    private Long timeOUt;
 
-    public String generateToken(User user) {
+    @Value("${jwt.secret}")
+    private String SECRET;
+
+    public JwtToken generateToken(User user) {
         return generateToken(user.getUsername());
     }
 
@@ -38,32 +41,43 @@ public class JwtTokenUtil implements Serializable {
      * @param username 数据
      * @return 令牌
      */
-    private String generateToken(String username){
-        return Jwts.builder()
+    private JwtToken generateToken(String username){
+        Long now = System.currentTimeMillis();
+
+        String accessToken = Jwts.builder()
                 .setHeaderParam("typ", "JWT")
                 .setSubject(username)
-                .setExpiration(new Date(System.currentTimeMillis()+expiration * 1000))
-                .setIssuedAt(new Date(System.currentTimeMillis())) //签发时间
-                .signWith(SignatureAlgorithm.HS512,SECRET)
+                .setExpiration(new Date(now + expiration * 1000))
+                .setIssuedAt(new Date(now)) //签发时间
+                .signWith(SignatureAlgorithm.HS512, SECRET)
                 .compact();
+
+        String refreshToken = Jwts.builder()
+                .setHeaderParam("typ", "JWT")
+                .setSubject(username)
+                .setExpiration(new Date(now + timeOUt * 1000))
+                .setIssuedAt(new Date(now)) //签发时间
+                .signWith(SignatureAlgorithm.HS512, SECRET)
+                .compact();
+
+        return new JwtToken().setAccessToken(accessToken).setRefreshToken(refreshToken);
     }
 
     /**
      * 查询用户名
-     * @param token
+     * @param jwtToken
      * @return
      */
-    public String getUsernameFromToken(String token){
-        Claims claims = this.parseToken(token);
+    public String getUsernameFromToken(JwtToken jwtToken){
+        Claims claims = this.parseToken(jwtToken.getAccessToken());
         if(!Objects.isNull(claims)){
             return claims.getSubject();
         }
         return null;
     }
 
-
     /**
-     * 解析 Token
+     * 解析Token
      * @param token
      * @return
      */
@@ -83,8 +97,8 @@ public class JwtTokenUtil implements Serializable {
      * @param token
      * @return
      */
-    public String refreshToken(String token){
-        Claims claims = parseToken(token);
+    public JwtToken refreshToken(JwtToken token){
+        Claims claims = parseToken(token.getRefreshToken());
         if(!Objects.isNull(claims)){
             return this.generateToken(claims.getSubject());
         }

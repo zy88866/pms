@@ -1,5 +1,6 @@
 package com.fzy.pms;
 
+import com.fzy.pms.entity.security.JwtToken;
 import com.fzy.pms.entity.security.User;
 import com.fzy.pms.utils.JwtTokenUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +34,7 @@ public class JwtTokenTest {
     @Test
     public void paramJwtToken(){
       String username = jwtTokenUtil.getUsernameFromToken
-                ("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTU1NDU0NzMxMSwiaWF0IjoxNTU0NTQzNzExfQ.yr8RBtq1EC-YJQj7z4bJV8I92Tsui4aEg7LvYrH_CDxupPjw1ScrbKC1iD8YHt5DLk5nhXG75-qH24WhkDgVQQ");
+                (new JwtToken().setAccessToken("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTU1NDU0NzMxMSwiaWF0IjoxNTU0NTQzNzExfQ.yr8RBtq1EC-YJQj7z4bJV8I92Tsui4aEg7LvYrH_CDxupPjw1ScrbKC1iD8YHt5DLk5nhXG75-qH24WhkDgVQQ"));
         System.out.println(username);
 
     }

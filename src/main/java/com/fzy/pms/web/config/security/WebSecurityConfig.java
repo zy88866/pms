@@ -12,7 +12,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.web.context.SecurityContextPersistenceFilter;
 
 import javax.annotation.Resource;
 
@@ -39,6 +39,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private RestAccessDeniedHandler accessDeniedHandler;
 
     @Autowired
+    private LogoutSuccessHandler logoutSuccessHandler;
+
+    @Autowired
     private JwtTokenFilter jwtTokenFilter;
 
     @Override //配置策略
@@ -47,8 +50,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .formLogin().loginProcessingUrl("/login")
             .successHandler(securitySuccessHandler)
             .failureHandler(securityFailureHandler).and()
-             //拦截全部请求
+            .logout().logoutSuccessHandler(logoutSuccessHandler).and()
+            //拦截全部请求
             .authorizeRequests().anyRequest().authenticated().and()
+            //跨域支持
             .cors().and()
             //关闭跨站请求防护
             .csrf().disable()
@@ -57,7 +62,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             //自定义权限拒绝处理类
             .exceptionHandling().authenticationEntryPoint(macLoginUrlAuthenticationEntryPoint()).accessDeniedHandler(accessDeniedHandler).and()
             //添加JWT过滤器 除/login其它请求都需经过此过滤器
-            .addFilterBefore(jwtTokenFilter, BasicAuthenticationFilter.class);
+            .addFilterAfter(jwtTokenFilter, SecurityContextPersistenceFilter.class);
+
+        // 禁用缓存
+        http.headers().cacheControl();
     }
 
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
