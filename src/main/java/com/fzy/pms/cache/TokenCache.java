@@ -29,7 +29,7 @@ public class TokenCache {
         String username = jwtTokenUtil.getUsernameFromToken(jwtToken);
         if(StringUtils.isNotBlank(username)){
             JwtToken token = userMap.get(username);
-            return Objects.isNull(token)?null:token.getRefreshToken().equals(jwtToken.getAccessToken())?username:null;
+            return Objects.isNull(token)?null:token.getAccessToken().equals(jwtToken.getAccessToken())?username:null;
         }
         return null;
     }

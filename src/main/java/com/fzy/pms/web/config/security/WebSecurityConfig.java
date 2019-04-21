@@ -3,6 +3,7 @@ package com.fzy.pms.web.config.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -52,7 +53,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .failureHandler(securityFailureHandler).and()
             .logout().logoutSuccessHandler(logoutSuccessHandler).and()
             //拦截全部请求
-            .authorizeRequests().anyRequest().authenticated().and()
+            .authorizeRequests().antMatchers(HttpMethod.OPTIONS).permitAll().and()
             //跨域支持
             .cors().and()
             //关闭跨站请求防护
@@ -64,6 +65,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             //添加JWT过滤器 除/login其它请求都需经过此过滤器
             .addFilterAfter(jwtTokenFilter, SecurityContextPersistenceFilter.class);
 
+        http.authorizeRequests().antMatchers(HttpMethod.OPTIONS).permitAll();
         // 禁用缓存
         http.headers().cacheControl();
     }
