@@ -42,6 +42,11 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws ServletException, IOException {
+        if(req.getServletPath().equals("/auth/token")){
+            chain.doFilter(req, res);
+            return;
+        }
+
         String token = getToken(req);
 
         String username=null;
@@ -49,9 +54,6 @@ public class JwtTokenFilter extends OncePerRequestFilter {
              username = tokenCache.getUsername(new JwtToken().setAccessToken(token));
              if(StringUtils.isBlank(username)){
                  ResponseUtil.out(res, Result.failure(RestCode.TOKEN_EXPIRE));
-                 return;
-             }else if(req.getRequestURI().equals("/auth/token")){
-                 chain.doFilter(req, res);
                  return;
              }
         }

@@ -1,5 +1,6 @@
 package com.fzy.pms.web.config.security;
 
+import com.fzy.pms.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,12 +11,9 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
-
-import javax.annotation.Resource;
 
 /**
  * @program: WebSecurityConfig
@@ -27,8 +25,8 @@ import javax.annotation.Resource;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Resource(name = "userService")
-    private UserDetailsService userDetailsService;
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private SecuritySuccessHandler securitySuccessHandler;
@@ -64,14 +62,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .exceptionHandling().authenticationEntryPoint(macLoginUrlAuthenticationEntryPoint()).accessDeniedHandler(accessDeniedHandler).and()
             //添加JWT过滤器 除/login其它请求都需经过此过滤器
             .addFilterBefore(jwtTokenFilter, LogoutFilter.class);
-
-        http.authorizeRequests().antMatchers(HttpMethod.OPTIONS).permitAll();
         // 禁用缓存
         http.headers().cacheControl();
     }
 
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService);
+        auth.userDetailsService(userService);
     }
 
     @Override
