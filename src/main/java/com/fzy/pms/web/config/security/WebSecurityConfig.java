@@ -13,7 +13,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
-import org.springframework.security.web.context.SecurityContextPersistenceFilter;
+import org.springframework.security.web.authentication.logout.LogoutFilter;
 
 import javax.annotation.Resource;
 
@@ -63,7 +63,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             //自定义权限拒绝处理类
             .exceptionHandling().authenticationEntryPoint(macLoginUrlAuthenticationEntryPoint()).accessDeniedHandler(accessDeniedHandler).and()
             //添加JWT过滤器 除/login其它请求都需经过此过滤器
-            .addFilterAfter(jwtTokenFilter, SecurityContextPersistenceFilter.class);
+            .addFilterBefore(jwtTokenFilter, LogoutFilter.class);
 
         http.authorizeRequests().antMatchers(HttpMethod.OPTIONS).permitAll();
         // 禁用缓存

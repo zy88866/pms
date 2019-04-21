@@ -29,6 +29,6 @@ public class LogoutSuccessHandler implements org.springframework.security.web.au
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         User details = (User) authentication.getPrincipal();
         tokenCache.remove(details.getUsername());
-        ResponseUtil.out(response, Result.failure("恭喜你成功退出登陆"));
+        ResponseUtil.out(response, Result.success("恭喜你成功退出登陆"));
     }
 }

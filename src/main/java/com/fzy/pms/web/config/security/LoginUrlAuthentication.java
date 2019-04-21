@@ -1,5 +1,6 @@
 package com.fzy.pms.web.config.security;
 
+import com.fzy.pms.entity.enums.RestCode;
 import com.fzy.pms.entity.rest.Result;
 import com.fzy.pms.utils.ResponseUtil;
 import org.springframework.security.core.AuthenticationException;
@@ -29,6 +30,6 @@ public class LoginUrlAuthentication extends LoginUrlAuthenticationEntryPoint {
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        ResponseUtil.out(response,Result.failure("非法访问,请先登陆!!!"));
+        ResponseUtil.out(response,Result.failure(RestCode.TOKEN_EXPIRE.getCode(),"非法访问,请先登陆!!!"));
     }
 }

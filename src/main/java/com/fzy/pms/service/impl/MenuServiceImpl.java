@@ -96,14 +96,14 @@ public class MenuServiceImpl implements MenuService {
      * @return
      */
     private Set<MenuDto> createTree(Long parentId, Map<Long, List<Menu>> menus){
-        return menus.get(parentId).stream().map(e->{
-            MenuDto menuDTO=new MenuDto();
-            BeanUtils.copyProperties(e,menuDTO);
-            if(!Objects.isNull(menus.get(e.getId()))){
-                menuDTO.setChildren(createTree(e.getId() ,menus));
+        return menus.get(parentId).stream().map(e -> {
+            MenuDto menuDTO = new MenuDto();
+            BeanUtils.copyProperties(e, menuDTO);
+            if (!Objects.isNull(menus.get(e.getId()))) {
+                menuDTO.setChildren(createTree(e.getId(), menus));
             }
             return menuDTO;
-        }).collect(Collectors.toSet());
+        }).collect(Collectors.toCollection(TreeSet::new));
     }
 
 }
