@@ -6,11 +6,13 @@ import com.fzy.pms.entity.rest.Result;
 import com.fzy.pms.entity.security.User;
 import com.fzy.pms.service.UserService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
+
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Objects;
@@ -58,6 +60,13 @@ public class UserController {
     public Result deleteUser(@PathVariable Long id){
         userService.lockUser(id);
         return Result.success();
+    }
+
+    @GetMapping("/list")
+    @ApiModelProperty(value = "查询当前用户列表", notes = "查询当前用户列表")
+    public Result getUserList(){
+        List<UserDto> List = userService.findAllListSortCreateTime();
+        return Result.success(List);
     }
 
 }

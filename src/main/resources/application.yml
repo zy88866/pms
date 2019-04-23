@@ -23,7 +23,7 @@ spring:
     cache: false
     mode: HTML5
 jwt:
-  expiration: 300
+  expiration: 600
   time-out: 1200
   secret: pms_token
 

@@ -9,6 +9,7 @@ import com.fzy.pms.exception.SystemErrorException;
 import com.fzy.pms.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,6 +18,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -85,5 +87,12 @@ public class UserServiceImpl implements UserService {
            return userRepository.findByUsername(Username);
         }
       return Optional.empty();
+    }
+
+    @Override
+    public List<UserDto> findAllListSortCreateTime() {
+        Sort sort=new Sort(Sort.Direction.DESC,"createTime");
+        List<UserDto> userDtoList = userMapper.toDto(userRepository.findAll(sort));
+        return userDtoList;
     }
 }

@@ -4,6 +4,7 @@ import com.fzy.pms.entity.dto.UserDto;
 import com.fzy.pms.entity.security.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -16,12 +17,14 @@ public interface UserService extends UserDetailsService {
 
     /**
      * 查询当前用户信息
+     *
      * @return
      */
     Optional<UserDto> getCurrUserInfo();
 
     /**
      * 注册用户
+     *
      * @param user
      * @return
      */
@@ -29,14 +32,24 @@ public interface UserService extends UserDetailsService {
 
     /**
      * 锁定用户
+     *
      * @param id
      */
     void lockUser(Long id);
 
     /**
      * 根据用户名查询用户
+     *
      * @param Username
      * @return
      */
     Optional<User> getUserByUsername(String Username);
+
+    /**
+     * 查询全部用户列表
+     *
+     * @return
+     */
+    List<UserDto> findAllListSortCreateTime();
+
 }

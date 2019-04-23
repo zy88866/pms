@@ -5,11 +5,16 @@ import com.google.common.collect.Sets;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import java.util.Collection;
 
 /**
@@ -23,6 +28,8 @@ import java.util.Collection;
 @Entity
 @Table(name="t_user")
 @ApiModel("用户")
+@SQLDelete(sql = "update t_user set delete_flag="+ Constants.DELETED+" where id= ?")
+@Where(clause = "delete_flag="+ Constants.NORMEL)
 public class User extends Base implements UserDetails {
 
     @NotBlank(message = "用户名不能为空")

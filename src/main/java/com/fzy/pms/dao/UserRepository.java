@@ -14,6 +14,9 @@ public interface UserRepository extends JpaRepository<User,Long> {
 
     Optional<User> findByUsername(String username);
 
+//    @Query(value = "select new com.fzy.pms.entity.dto.UserDto(u.id,u.username,u.email,u.phone,u.realName,r.name) from User u left join Role r on u.role=r.id  order by u.createTime desc")
+//    List<UserDto> findAllOrderByCreateTime();
+
     @Modifying
     @Query(value ="update User set deleteFlag=1 where id=:id")
     int  lockUser(@Param("id") Long id);
