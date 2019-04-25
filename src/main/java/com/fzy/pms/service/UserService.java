@@ -52,4 +52,12 @@ public interface UserService extends UserDetailsService {
      */
     List<UserDto> findAllListSortCreateTime();
 
+    /**
+     * 更新用户信息
+     * @param user
+     * @return
+     */
+    void updateUserInfo(User user);
+
+
 }

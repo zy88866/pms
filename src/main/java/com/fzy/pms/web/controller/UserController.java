@@ -6,11 +6,9 @@ import com.fzy.pms.entity.rest.Result;
 import com.fzy.pms.entity.security.User;
 import com.fzy.pms.service.UserService;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -28,12 +26,6 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-
-    @GetMapping
-    public List<User> getUser(@PageableDefault(page = 1,size = 20,sort = "userName desc") Pageable pageable){
-        System.out.println(pageable.getPageNumber());
-        return null;
-    }
 
     @GetMapping("/{id:\\d+}")
     @ApiOperation(value = "查询用户",notes = "根据用户id查询用户信息")
@@ -56,17 +48,24 @@ public class UserController {
     }
 
     @DeleteMapping("/{id:\\d+}")
-    @ApiOperation(value = "锁定用户",notes = "根据id 删除用户")
+    @ApiOperation(value = "删除用户",notes = "根据id 删除用户")
     public Result deleteUser(@PathVariable Long id){
         userService.lockUser(id);
         return Result.success();
     }
 
     @GetMapping("/list")
-    @ApiModelProperty(value = "查询当前用户列表", notes = "查询当前用户列表")
+    @ApiOperation(value = "查询当前用户列表", notes = "查询当前用户列表")
     public Result getUserList(){
         List<UserDto> List = userService.findAllListSortCreateTime();
         return Result.success(List);
+    }
+
+    @PutMapping("/edit")
+    @ApiOperation(value = "编辑用户信息", notes="编辑用户信息")
+    public Result editUserInfo(@Validated(User.Update.class) @RequestBody User user){
+        userService.updateUserInfo(user);
+        return Result.success();
     }
 
 }

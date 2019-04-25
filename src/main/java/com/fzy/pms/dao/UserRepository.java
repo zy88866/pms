@@ -19,6 +19,6 @@ public interface UserRepository extends JpaRepository<User,Long> {
 
     @Modifying
     @Query(value ="update User set deleteFlag=1 where id=:id")
-    int  lockUser(@Param("id") Long id);
+    int lockUser(@Param("id") Long id);
 
 }

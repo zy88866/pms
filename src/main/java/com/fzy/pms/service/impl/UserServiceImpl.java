@@ -95,4 +95,16 @@ public class UserServiceImpl implements UserService {
         List<UserDto> userDtoList = userMapper.toDto(userRepository.findAll(sort));
         return userDtoList;
     }
+
+    @Override
+    public void updateUserInfo(User user) {
+        userRepository.findById(user.getId()).ifPresent(detail ->{
+            detail.setUsername(user.getUsername());
+            detail.setRealName(user.getRealName());
+            detail.setPhone(user.getPhone());
+            detail.setEmail(user.getEmail());
+            detail.setRole(user.getRole());
+            userRepository.save(detail);
+        });
+    }
 }
