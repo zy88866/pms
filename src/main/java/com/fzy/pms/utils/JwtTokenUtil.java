@@ -10,6 +10,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 
@@ -24,10 +28,10 @@ import java.util.Objects;
 public class JwtTokenUtil implements Serializable {
 
     @Value("${jwt.expiration}")
-    private Long expiration;
+    private int expiration;
 
     @Value("${jwt.time-out}")
-    private Long timeOUt;
+    private int timeOUt;
 
     @Value("${jwt.secret}")
     private String SECRET;
@@ -42,21 +46,25 @@ public class JwtTokenUtil implements Serializable {
      * @return 令牌
      */
     private JwtToken generateToken(String username){
-        Long now = System.currentTimeMillis();
+
+        Calendar instance = Calendar.getInstance();
+
+        instance.add(Calendar.SECOND,expiration);
 
         String accessToken = Jwts.builder()
                 .setHeaderParam("typ", "JWT")
                 .setSubject(username)
-                .setExpiration(new Date(now + expiration * 1000))
-                .setIssuedAt(new Date(now)) //签发时间
+                .setExpiration(instance.getTime())
+                .setIssuedAt(new Date(System.currentTimeMillis())) //签发时间
                 .signWith(SignatureAlgorithm.HS512, SECRET)
                 .compact();
 
+        instance.add(Calendar.SECOND,timeOUt);
         String refreshToken = Jwts.builder()
                 .setHeaderParam("typ", "JWT")
                 .setSubject(username)
-                .setExpiration(new Date(now + timeOUt * 1000))
-                .setIssuedAt(new Date(now)) //签发时间
+                .setExpiration(instance.getTime())
+                .setIssuedAt(new Date(System.currentTimeMillis())) //签发时间
                 .signWith(SignatureAlgorithm.HS512, SECRET)
                 .compact();
 

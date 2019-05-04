@@ -23,7 +23,7 @@ spring:
     cache: false
     mode: HTML5
 jwt:
-  expiration: 3600
-  time-out: 3600
-  secret: pms_token
+  expiration: 30 # 过期时间 单位秒
+  time-out: 60   # 超时时间 单位秒
+  secret: uKd?J|tt9wE[._U+$==X?-@#NZ\,Um=@
 
