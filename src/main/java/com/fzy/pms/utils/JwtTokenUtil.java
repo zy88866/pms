@@ -49,7 +49,7 @@ public class JwtTokenUtil implements Serializable {
 
         Calendar instance = Calendar.getInstance();
 
-        instance.add(Calendar.SECOND,expiration);
+        instance.add(Calendar.MINUTE,expiration);
 
         String accessToken = Jwts.builder()
                 .setHeaderParam("typ", "JWT")
@@ -59,7 +59,7 @@ public class JwtTokenUtil implements Serializable {
                 .signWith(SignatureAlgorithm.HS512, SECRET)
                 .compact();
 
-        instance.add(Calendar.SECOND,timeOUt);
+        instance.add(Calendar.MINUTE,timeOUt);
         String refreshToken = Jwts.builder()
                 .setHeaderParam("typ", "JWT")
                 .setSubject(username)
