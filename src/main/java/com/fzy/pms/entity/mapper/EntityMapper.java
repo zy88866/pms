@@ -1,5 +1,7 @@
 package com.fzy.pms.entity.mapper;
 
+import com.fzy.pms.entity.security.Role;
+
 import java.util.List;
 
 /**

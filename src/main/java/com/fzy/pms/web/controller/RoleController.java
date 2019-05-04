@@ -51,5 +51,4 @@ public class RoleController {
         return Result.success(roleService.findAll());
     }
 
-
 }

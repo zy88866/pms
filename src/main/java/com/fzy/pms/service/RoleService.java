@@ -1,5 +1,6 @@
 package com.fzy.pms.service;
 
+import com.fzy.pms.entity.dto.RoleDto;
 import com.fzy.pms.entity.security.Role;
 
 import java.util.List;
@@ -35,6 +36,6 @@ public interface RoleService {
      * 查询全部的角色
      * @return
      */
-    List<Role> findAll();
+    List<RoleDto> findAll();
 
 }

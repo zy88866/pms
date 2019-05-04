@@ -1,8 +1,12 @@
 package com.fzy.pms.dao;
 
+import com.fzy.pms.entity.dto.RoleDto;
 import com.fzy.pms.entity.security.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * @program: RoleRepository
@@ -12,6 +16,5 @@ import org.springframework.stereotype.Repository;
  **/
 @Repository
 public interface RoleRepository extends JpaRepository<Role ,Long> {
-
 
 }
