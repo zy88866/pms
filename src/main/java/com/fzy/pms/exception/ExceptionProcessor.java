@@ -47,12 +47,12 @@ public class ExceptionProcessor {
     public Result validationBodyException(MethodArgumentNotValidException e){
         HashSet<String> set= Sets.newHashSet();
         e.getBindingResult().getAllErrors().forEach(p->set.add(p.getDefaultMessage()));
-        return Result.failure(HttpStatus.INTERNAL_SERVER_ERROR.value(),set);
+        return Result.failure(HttpStatus.INTERNAL_SERVER_ERROR.value(),set.toString());
     }
 
     /**
      * 接口不存在
-     * @param e
+     * @param
      * @return
      */
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)

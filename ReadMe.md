@@ -13,7 +13,8 @@
  
 ## 初始化脚本
 ```sql
-INSERT INTO t_role(`id`, `create_time`, `delete_flag`, `update_time`, `name`, `remark`) VALUES (1, '2019-04-05 14:14:45', 0, '2019-04-05 14:14:45', '超级管理员', '我是超管,我怕谁');
+INSERT INTO t_role(`id`, `create_time`, `delete_flag`, `update_time`, `name`, `remark`) VALUES (1, '2019-04-05 14:14:45', 0, '2019-04-05 14:14:45', '超级管理员', '我是超管,~~~');
+INSERT INTO t_role(`id`, `create_time`, `delete_flag`, `update_time`, `name`, `remark`) VALUES (2, '2019-04-05 14:15:45', 0, '2019-04-05 14:15:45', '业主', '业主权限最小');
 INSERT INTO t_user(`id`, `create_time`, `delete_flag`, `update_time`, `email`, `password`, `phone`, `real_name`, `username`, `role_id`) VALUES (1, '2019-03-23 19:55:36', 0, '2019-03-23 19:55:36', '1010101010@qq.com', '$2a$10$cKEs3EJrpXOND7HIknIjquy0yFx990fNmFtIrW9oMpKhEMMZkwq2.', '18788779966', '张三', 'admin', 1);
 INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, name, path, pid)VALUES (100,now(),0,now(),'Layout' ,'pms-icon-xitongguanli' ,'系统管理','/sysSteam',0 );
 INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, name, path, pid)VALUES (101,now(),0,now(),'Sys/User' ,'pms-icon-userguanli' ,'用户管理','/sysSteam/user',100 );

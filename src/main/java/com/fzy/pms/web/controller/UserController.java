@@ -1,8 +1,11 @@
 package com.fzy.pms.web.controller;
 
 import com.fzy.pms.dao.UserRepository;
+import com.fzy.pms.entity.dto.RoleDto;
 import com.fzy.pms.entity.dto.UserDto;
+import com.fzy.pms.entity.enums.RestCode;
 import com.fzy.pms.entity.rest.Result;
+import com.fzy.pms.entity.security.Role;
 import com.fzy.pms.entity.security.User;
 import com.fzy.pms.service.UserService;
 import io.swagger.annotations.Api;
@@ -22,15 +25,12 @@ import java.util.Optional;
 public class UserController {
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
     private UserService userService;
 
     @GetMapping("/{id:\\d+}")
     @ApiOperation(value = "查询用户",notes = "根据用户id查询用户信息")
     public Result getUser(@PathVariable Long id){
-        Optional<User> user = userRepository.findById(id);
+        Optional<UserDto> user = userService.findUser(id);
         return user.isPresent()? Result.success(user.get()):Result.failure("获取用户信息失败");
     }
 
@@ -64,8 +64,24 @@ public class UserController {
     @PutMapping("/edit")
     @ApiOperation(value = "编辑用户信息", notes="编辑用户信息")
     public Result editUserInfo(@Validated(User.Update.class) @RequestBody User user){
-        userService.updateUserInfo(user);
-        return Result.success();
+        Boolean success = userService.updateUserInfo(user);
+        return success?Result.success(): Result.failure("用户名已存在");
+    }
+
+    @GetMapping("/search")
+    @ApiOperation(value = "根据条件查询用户信息", notes = "根据条件查询用户信息")
+    public Result search(@RequestParam(name = "realName",required = false) String realName,
+                         @RequestParam(name = "phone",required = false) String phone,
+                         @RequestParam(name = "email",required = false) String email,
+                         @RequestParam(name = "roleId",required = false) Long roleId){
+        User user=new User();
+        Role role=new Role();
+        user.setRealName(realName);
+        user.setPhone(phone);
+        user.setEmail(email);
+        role.setId(roleId);
+        user.setRole(role);
+        return  Result.success(userService.search(user));
     }
 
 }

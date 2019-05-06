@@ -57,7 +57,19 @@ public interface UserService extends UserDetailsService {
      * @param user
      * @return
      */
-    void updateUserInfo(User user);
+    Boolean updateUserInfo(User user);
 
+    /**
+     * 模糊搜索
+     * @param user
+     * @return
+     */
+    List<UserDto> search(User user);
 
+    /**
+     * 通过id 查询用户
+     * @param id
+     * @return
+     */
+    Optional<UserDto> findUser(Long id);
 }

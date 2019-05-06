@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.experimental.Accessors;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -36,7 +37,7 @@ public class Base implements Serializable {
     @UpdateTimestamp
     private Date updateTime;
 
-    @ApiModelProperty(value ="更新时间",hidden = true)
+    @ApiModelProperty(value ="删除标志位 0 为删除 1删除",hidden = true)
     @JsonIgnore
     @NotNull
     private int deleteFlag;

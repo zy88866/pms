@@ -2,6 +2,7 @@ package com.fzy.pms.entity.dto;
 
 import com.fzy.pms.entity.security.Role;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 /**
  * @program: UserDto

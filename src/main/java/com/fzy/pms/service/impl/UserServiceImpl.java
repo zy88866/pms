@@ -10,6 +10,7 @@ import com.fzy.pms.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,6 +19,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -78,7 +84,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void lockUser(Long id){
-        userRepository.lockUser(id);
+        userRepository.deleteById(id);
     }
 
     @Override
@@ -92,12 +98,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDto> findAllListSortCreateTime() {
         Sort sort=new Sort(Sort.Direction.DESC,"createTime");
-        List<UserDto> userDtoList = userMapper.toDto(userRepository.findAll(sort));
-        return userDtoList;
+        return userMapper.toDto(userRepository.findAll(sort));
     }
 
     @Override
-    public void updateUserInfo(User user) {
+    public Boolean updateUserInfo(User user) {
+        //查询用户名是否存在
+        if(userRepository.findByUsername(user.getUsername()).isPresent()){
+            return false;
+        }
         userRepository.findById(user.getId()).ifPresent(detail ->{
             detail.setUsername(user.getUsername());
             detail.setRealName(user.getRealName());
@@ -106,5 +115,37 @@ public class UserServiceImpl implements UserService {
             detail.setRole(user.getRole());
             userRepository.save(detail);
         });
+        return true;
+    }
+
+    @Override
+    public List<UserDto> search(User user) {
+        List list = userRepository.findAll((Specification<User>) (root, query, criteriaBuilder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            if (StringUtils.isNotBlank(user.getRealName())) {
+                predicates.add(criteriaBuilder.like(root.get("realName"), "%" + user.getRealName() + "%"));
+            }
+
+            if (StringUtils.isNotBlank((user.getPhone()))){
+                predicates.add(criteriaBuilder.like(root.get("phone"), user.getPhone() + "%"));
+            }
+
+            if (StringUtils.isNotBlank((user.getEmail()))){
+                predicates.add(criteriaBuilder.like(root.get("email"), user.getEmail() + "%"));
+            }
+
+            if(!Objects.isNull(user.getRole().getId())){
+                predicates.add((criteriaBuilder.equal(root.get("role"), user.getRole())));
+            }
+
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+        }, new Sort(Sort.Direction.DESC, "createTime"));
+        return userMapper.toDto(list);
+    }
+
+    @Override
+    public Optional<UserDto> findUser(Long id) {
+        Optional<User> user = userRepository.findById(id);
+        return user.map(userMapper::toDto);
     }
 }
