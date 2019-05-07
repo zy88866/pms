@@ -37,7 +37,7 @@ public class Role extends Base {
     private String name;
 
     @ApiModelProperty("备注")
-    @NotBlank(message = "备注不能为空")
+    @NotBlank(message = "描述不能为空")
     private String remark;
 
     @ManyToMany

@@ -14,10 +14,10 @@ import java.util.Set;
 public interface MenuService {
 
     /**
-     * 根据菜单树
+     * 查询全部用户列表
      * @return
      */
-    Set<MenuDto> findByMenuTree();
+    Set<MenuDto> findAllByMenuTree();
 
     /**
      * 查询当前用户菜单列表
@@ -43,5 +43,7 @@ public interface MenuService {
      * @param id
      */
     void delete(Long id);
+
+
 
 }

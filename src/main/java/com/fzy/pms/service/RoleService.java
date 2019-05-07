@@ -3,7 +3,10 @@ package com.fzy.pms.service;
 import com.fzy.pms.entity.dto.RoleDto;
 import com.fzy.pms.entity.security.Role;
 
+import java.nio.file.OpenOption;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 /**
  * @program: RoleService
@@ -38,4 +41,23 @@ public interface RoleService {
      */
     List<RoleDto> findAll();
 
+    /**
+     * 批量删除角色
+     * @return
+     */
+    int batchDelete(Set<Long> ids);
+
+    /**
+     * 角色模糊搜索
+     * @param role
+     * @return
+     */
+    List<RoleDto> search(String role);
+
+    /**
+     * 根据id 查询用户
+     * @param id
+     * @return
+     */
+    Optional<RoleDto> findOne(Long id);
 }

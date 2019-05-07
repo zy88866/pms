@@ -1,5 +1,7 @@
 package com.fzy.pms.web.controller;
 
+import com.fzy.pms.dao.RoleRepository;
+import com.fzy.pms.entity.dto.RoleDto;
 import com.fzy.pms.entity.rest.Result;
 import com.fzy.pms.entity.security.Menu;
 import com.fzy.pms.entity.security.Role;
@@ -9,6 +11,11 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
 
 /**
  * @program: RoleController
@@ -27,8 +34,8 @@ public class RoleController {
     @PostMapping
     @ApiOperation(value = "添加角色",notes = "添加角色")
     public Result create(@Validated @RequestBody Role role){
-        Role roleVo = roleService.create(role);
-        return Result.success(roleVo);
+        roleService.create(role);
+        return Result.success();
     }
 
     @PutMapping
@@ -45,10 +52,30 @@ public class RoleController {
         return Result.success();
     }
 
-    @GetMapping("/findAll")
+    @GetMapping
     @ApiOperation(value = "查询全部角色",notes = "查询全部角色")
     public Result findAll(){
         return Result.success(roleService.findAll());
+    }
+
+    @DeleteMapping("/batchDelete")
+    @ApiOperation(value = "批量删除",notes = "批量删除")
+    public Result batchDelete(@RequestBody Set<Long> ids){
+        roleService.batchDelete(ids);
+        return Result.success();
+    }
+
+    @GetMapping("/search")
+    @ApiOperation(value = "模糊搜索",notes="模糊搜索")
+    public Result search(@RequestParam("name") String name){
+        return Result.success(roleService.search(name));
+    }
+
+    @GetMapping("/{id:\\d+}")
+    @ApiOperation(value = "查询角色",notes = "根据id 查询角色")
+    public Result findOne(@PathVariable Long id){
+        Optional<RoleDto> role = roleService.findOne(id);
+        return role.isPresent()?Result.success(role.get()):Result.failure("用户不存在");
     }
 
 }

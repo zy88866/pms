@@ -39,7 +39,7 @@ public class MenuServiceImpl implements MenuService {
     private UserService userService;
 
     @Override
-    public Set<MenuDto> findByMenuTree() {
+    public Set<MenuDto> findAllByMenuTree() {
         //分组后的menu列表
         Map<Long, List<Menu>> menuList = menuRepository.findAll()
                 .stream().collect(Collectors.groupingBy(Menu::getPid));

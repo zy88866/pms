@@ -104,8 +104,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public Boolean updateUserInfo(User user) {
         //查询用户名是否存在
-        if(userRepository.findByUsername(user.getUsername()).isPresent()){
-            return false;
+        Optional<User> dbUser = userRepository.findByUsername(user.getUsername());
+        if(dbUser.isPresent()){
+            if(!dbUser.get().getId().equals(user.getId())){
+                return false;
+            }
         }
         userRepository.findById(user.getId()).ifPresent(detail ->{
             detail.setUsername(user.getUsername());

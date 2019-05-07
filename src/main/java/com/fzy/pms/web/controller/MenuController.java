@@ -46,9 +46,15 @@ public class MenuController {
     }
 
     @GetMapping("/menuList")
-    @ApiOperation(value = "查询菜单列表",notes = "查询当前用户菜单列表")
+    @ApiOperation(value = "查询当前用户菜单列表",notes = "查询当前用户菜单列表")
     public Result getCurrMenuList(){
         return Result.success(menuService.getCurrMenuTree());
+    }
+
+    @GetMapping("/findAllMenus")
+    @ApiOperation(value = "查询全部菜单列表",notes = "查询全部菜单列表")
+    public Result findAllMenus(){
+        return Result.success(menuService.findAllByMenuTree());
     }
 
 }
