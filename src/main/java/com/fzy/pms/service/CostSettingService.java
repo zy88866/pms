@@ -19,4 +19,8 @@ public interface CostSettingService {
     void update(CostSetting costSetting);
 
     void delete(Long id);
+
+    Page<CostSetting> findCostSetByNameLike(String name,Pageable pageable);
+
+    CostSetting findOne(Long id);
 }

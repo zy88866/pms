@@ -41,6 +41,7 @@ public class CostSetting extends Base {
     private BigDecimal costPrice;
 
     @ApiModelProperty("计费规则")
+    @NotBlank(groups = {Update.class,Save.class},message = "计费规则不能为空")
     private String regular;
 
     public interface Save {

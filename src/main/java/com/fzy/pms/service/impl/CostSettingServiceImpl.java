@@ -2,6 +2,7 @@ package com.fzy.pms.service.impl;
 
 import com.fzy.pms.dao.CostSettingRepository;
 import com.fzy.pms.entity.pms.CostSetting;
+import com.fzy.pms.exception.SystemErrorException;
 import com.fzy.pms.service.CostSettingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -43,5 +44,16 @@ public class CostSettingServiceImpl implements CostSettingService {
     @Override
     public void delete(Long id) {
         costSettingRepository.deleteById(id);
+    }
+
+    @Override
+    public Page<CostSetting> findCostSetByNameLike(String name,Pageable pageable) {
+        Page<CostSetting> costData = costSettingRepository.findCostSettingByCostNameLike("%" + name + "%", pageable);
+        return costData;
+    }
+
+    @Override
+    public CostSetting findOne(Long id) {
+        return costSettingRepository.findById(id).orElseThrow(()->new SystemErrorException("费用不存在"));
     }
 }
