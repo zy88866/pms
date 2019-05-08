@@ -59,5 +59,5 @@ public interface RoleService {
      * @param id
      * @return
      */
-    Optional<RoleDto> findOne(Long id);
+    Role findOne(Long id);
 }

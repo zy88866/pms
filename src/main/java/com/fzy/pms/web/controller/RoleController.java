@@ -74,8 +74,8 @@ public class RoleController {
     @GetMapping("/{id:\\d+}")
     @ApiOperation(value = "查询角色",notes = "根据id 查询角色")
     public Result findOne(@PathVariable Long id){
-        Optional<RoleDto> role = roleService.findOne(id);
-        return role.isPresent()?Result.success(role.get()):Result.failure("用户不存在");
+        Role role = roleService.findOne(id);
+        return Result.success(role);
     }
 
 }

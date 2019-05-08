@@ -2,21 +2,28 @@ package com.fzy.pms.service.impl;
 
 import com.fzy.pms.dao.RoleRepository;
 import com.fzy.pms.dao.UserRepository;
+import com.fzy.pms.entity.dto.MenuDto;
 import com.fzy.pms.entity.dto.RoleDto;
 import com.fzy.pms.entity.mapper.RoleMapper;
+import com.fzy.pms.entity.security.Menu;
 import com.fzy.pms.entity.security.Role;
 import com.fzy.pms.entity.security.User;
 import com.fzy.pms.exception.SystemErrorException;
+import com.fzy.pms.service.MenuService;
 import com.fzy.pms.service.RoleService;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.thymeleaf.util.ListUtils;
 import org.thymeleaf.util.SetUtils;
 
 import javax.annotation.Resource;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @program: RoleServiceImpl
@@ -33,22 +40,27 @@ public class RoleServiceImpl implements RoleService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private MenuService menuService;
+
     @Resource
     private RoleMapper roleMapper;
 
     @Override
     public Role create(Role role) {
         if(roleRepository.findRoleByName(role.getName()).isPresent()){
-            throw new SystemErrorException("用户名已存在");
+            throw new SystemErrorException("角色名称已存在");
         }
         return roleRepository.save(role);
     }
 
     @Override
     public void update(Role role) {
-        if(roleRepository.findRoleByName(role.getName()).isPresent()){
-            throw new SystemErrorException("角色名称已存在");
-        }
+        roleRepository.findRoleByName(role.getName()).ifPresent(dbRole ->{
+           if(!dbRole.getId().equals(role.getId())){
+               throw new SystemErrorException("角色名称已存在");
+           }
+        });
         roleRepository.findById(role.getId()).ifPresent(roles ->{
             roles.setName(role.getName());
             roles.setRemark(role.getRemark());
@@ -108,10 +120,17 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Optional<RoleDto> findOne(Long id) {
+    @Transactional
+    public Role findOne(Long id) {
         if(Objects.isNull(id)){
             throw new SystemErrorException("id 不能为空");
         }
-        return roleRepository.findById(id).map(roleMapper::toDto);
+        Role role = roleRepository.findById(id).orElseThrow(() ->new SystemErrorException("用户不存在"));
+        if(!SetUtils.isEmpty(role.getMenus())){
+
+            Set<Menu> menus = role.getMenus().stream().filter(item -> item.getPid() != 0L).collect(Collectors.toSet());
+            role.setMenus(menus);
+        }
+        return role;
     }
 }
