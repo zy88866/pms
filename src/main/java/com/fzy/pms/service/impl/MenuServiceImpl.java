@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import org.thymeleaf.util.ListUtils;
 
 import javax.annotation.Resource;
@@ -54,6 +55,8 @@ public class MenuServiceImpl implements MenuService {
             if(!ListUtils.isEmpty(menus)){
                 Map<Long, List<Menu>> listMenu = menus.stream().collect(Collectors.groupingBy(Menu::getPid));
                 return createTree(0L, listMenu);
+            }else {
+                return Collections.emptySet();
             }
         }
         throw new SystemErrorException("当前用户不存在!!!");
