@@ -13,8 +13,9 @@
  
 ## 初始化脚本
 ```sql
-INSERT INTO t_role(`id`, `create_time`, `delete_flag`, `update_time`, `name`, `remark`) VALUES (1, '2019-04-05 14:14:45', 0, '2019-04-05 14:14:45', '超级管理员', '我是超管,~~~');
-INSERT INTO t_role(`id`, `create_time`, `delete_flag`, `update_time`, `name`, `remark`) VALUES (2, '2019-04-05 14:15:45', 0, '2019-04-05 14:15:45', '业主', '业主权限最小');
+INSERT INTO t_role(`id`, `create_time`, `delete_flag`, `update_time`, `name`, `remark`) VALUES (1, '2019-04-05 14:14:45', 0, '2019-04-05 14:14:45', '超级管理员', '权限最大,不建议分配,~~~');
+INSERT INTO t_role(`id`, `create_time`, `delete_flag`, `update_time`, `name`, `remark`) VALUES (2, '2019-04-05 14:15:45', 0, '2019-04-05 14:15:45', '业主', '缴费,保修等功能');
+-- admin admin
 INSERT INTO t_user(`id`, `create_time`, `delete_flag`, `update_time`, `email`, `password`, `phone`, `real_name`, `username`, `role_id`) VALUES (1, '2019-03-23 19:55:36', 0, '2019-03-23 19:55:36', '1010101010@qq.com', '$2a$10$cKEs3EJrpXOND7HIknIjquy0yFx990fNmFtIrW9oMpKhEMMZkwq2.', '18788779966', '张三', 'admin', 1);
 INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, name, path, pid)VALUES (100,now(),0,now(),'Layout' ,'pms-icon-xitongguanli' ,'系统管理','/sysSteam',0 );
 INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, name, path, pid)VALUES (101,now(),0,now(),'Sys/User' ,'pms-icon-userguanli' ,'用户管理','/sysSteam/user',100 );
@@ -22,22 +23,32 @@ INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, n
 INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, name, path, pid)VALUES (200,now(),0,now(),'Layout' ,'pms-icon-shoufeiguanli' ,'收费管理','/cost',0 );
 INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, name, path, pid)VALUES (201,now(),0,now(),'Cost/Set' ,'pms-icon-feiyongshezhi' ,'费用设置','/cost/setting',200 );
 INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, name, path, pid)VALUES (202,now(),0,now(),'Cost/Recharge' ,'pms-icon-chongczhi' ,'充值缴费','/cost/recharge',200 );
-INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, name, path, pid)VALUES (300,now(),0,now(),'Layout' ,NULL ,'资源管理','/resource',0 );
-INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, name, path, pid)VALUES (301,now(),0,now(),'Resource/House' ,NULL ,'房产管理','/resource/house',300 );
-INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, name, path, pid)VALUES (302,now(),0,now(),'Resource/Park' ,NULL ,'车位管理','/resource/park',300 );
-INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, name, path, pid)VALUES (303,now(),0,now(),'Resource/Door' ,NULL ,'门禁管理','/resource/door',300 );
-INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, name, path, pid)VALUES (400,now(),0,now(),'Layout' ,NULL ,'报修管理','/repairs',0 );
-INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, name, path, pid)VALUES (401,now(),0,now(),'Repairs/Apply' ,NULL ,'报修申请','/repairs/apply',400 );
-INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, name, path, pid)VALUES (402,now(),0,now(),'Repairs/Center' ,NULL ,'报修中心','/repairs/center',400 );
-INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, name, path, pid)VALUES (500,now(),0,now(),'Layout' ,NULL ,'报表中心','/report',0 );
-INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, name, path, pid)VALUES (501,now(),0,now(),'Report/Payment' ,NULL ,'缴费报表','/report/payment',500 );
-INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, name, path, pid)VALUES (502,now(),0,now(),'Report/Maintain' ,NULL ,'维修报表','/report/maintain',500 );
+INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, name, path, pid)VALUES (300,now(),0,now(),'Layout' ,'pms-icon-ziyuanguanli' ,'资源管理','/resource',0 );
+INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, name, path, pid)VALUES (301,now(),0,now(),'Resource/House' ,'pms-icon-fangchan' ,'房产管理','/resource/house',300 );
+INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, name, path, pid)VALUES (302,now(),0,now(),'Resource/Park' ,'pms-icon-chewei' ,'车位管理','/resource/park',300 );
+INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, name, path, pid)VALUES (303,now(),0,now(),'Resource/Door' ,'pms-icon-menjin' ,'门禁管理','/resource/door',300 );
+INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, name, path, pid)VALUES (400,now(),0,now(),'Layout' ,'pms-icon-baoxiu' ,'报修管理','/repairs',0 );
+INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, name, path, pid)VALUES (401,now(),0,now(),'Repairs/Apply' ,'pms-icon-weixiu' ,'报修申请','/repairs/apply',400 );
+INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, name, path, pid)VALUES (402,now(),0,now(),'Repairs/Center' ,'pms-icon-zongbu' ,'报修中心','/repairs/center',400 );
+INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, name, path, pid)VALUES (500,now(),0,now(),'Layout' ,'pms-icon-baobiao' ,'报表中心','/report',0 );
+INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, name, path, pid)VALUES (501,now(),0,now(),'Report/Payment' ,'pms-icon-jiaofei' ,'缴费报表','/report/payment',500 );
+INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, name, path, pid)VALUES (502,now(),0,now(),'Report/Maintain' ,'pms-icon-baoxiu1' ,'维修报表','/report/maintain',500 );
 INSERT INTO roles_menus(role_id, menu_id) VALUES (1,100);
 INSERT INTO roles_menus(role_id, menu_id) VALUES (1,101);
 INSERT INTO roles_menus(role_id, menu_id) VALUES (1,102);
 INSERT INTO roles_menus(role_id, menu_id) VALUES (1,200);
 INSERT INTO roles_menus(role_id, menu_id) VALUES (1,201);
 INSERT INTO roles_menus(role_id, menu_id) VALUES (1,202);
+INSERT INTO roles_menus(role_id, menu_id) VALUES (1,300);
+INSERT INTO roles_menus(role_id, menu_id) VALUES (1,301);
+INSERT INTO roles_menus(role_id, menu_id) VALUES (1,302);
+INSERT INTO roles_menus(role_id, menu_id) VALUES (1,400);
+INSERT INTO roles_menus(role_id, menu_id) VALUES (1,401);
+INSERT INTO roles_menus(role_id, menu_id) VALUES (1,402);
+INSERT INTO roles_menus(role_id, menu_id) VALUES (1,500);
+INSERT INTO roles_menus(role_id, menu_id) VALUES (1,501);
+INSERT INTO roles_menus(role_id, menu_id) VALUES (1,502);
+
 ```
 
 ## 项目笔记
