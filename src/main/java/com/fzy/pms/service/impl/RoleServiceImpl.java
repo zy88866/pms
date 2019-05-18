@@ -120,14 +120,12 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    @Transactional
     public Role findOne(Long id) {
         if(Objects.isNull(id)){
             throw new SystemErrorException("id 不能为空");
         }
         Role role = roleRepository.findById(id).orElseThrow(() ->new SystemErrorException("用户不存在"));
         if(!SetUtils.isEmpty(role.getMenus())){
-
             Set<Menu> menus = role.getMenus().stream().filter(item -> item.getPid() != 0L).collect(Collectors.toSet());
             role.setMenus(menus);
         }

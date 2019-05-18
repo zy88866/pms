@@ -1,9 +1,10 @@
 package com.fzy.pms.service;
 
-import com.fzy.pms.entity.pms.CostSetting;
 import com.fzy.pms.entity.pms.House;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
+import java.util.Set;
 
 /**
  * @program: HouseService
@@ -21,7 +22,9 @@ public interface HouseService {
 
     void delete(Long id);
 
-    Page<House> findCostSetByNameLike(String name,Pageable pageable);
+    Page<House> findHouseByUserId(Long id,Pageable pageable);
 
     House findOne(Long id);
+
+    void batchDelete(Set<Long> ids);
 }

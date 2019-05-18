@@ -2,11 +2,15 @@ package com.fzy.pms.service.impl;
 
 import com.fzy.pms.dao.HouseRepository;
 import com.fzy.pms.entity.pms.House;
+import com.fzy.pms.exception.SystemErrorException;
 import com.fzy.pms.service.HouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+
+import java.util.Set;
 
 /**
  * @program: HouseServiceImpl
@@ -22,7 +26,13 @@ public class HouseServiceImpl implements HouseService {
 
     @Override
     public Page<House> findAll(Pageable pageableDefault) {
-        return null;
+        Page<House> all = houseRepository.findAll(pageableDefault);
+        if(!CollectionUtils.isEmpty(all.getContent())){
+            all.getContent().forEach(detail->{
+                detail.setUsername(detail.getUser().getUsername());
+            });
+        }
+        return all;
     }
 
     @Override
@@ -37,6 +47,7 @@ public class HouseServiceImpl implements HouseService {
             detail.setStorey(house.getStorey());
             detail.setCellName(house.getCellName());
             detail.setPosition(house.getPosition());
+            houseRepository.save(detail);
             }
         );
     }
@@ -47,12 +58,25 @@ public class HouseServiceImpl implements HouseService {
     }
 
     @Override
-    public Page<House> findCostSetByNameLike(String name, Pageable pageable) {
-        return null;
+    public Page<House> findHouseByUserId(Long id,Pageable pageable) {
+        Page<House> all = houseRepository.findHouseByUserId(id,pageable);
+        if(!CollectionUtils.isEmpty(all.getContent())){
+            all.getContent().forEach(detail->{
+                detail.setUsername(detail.getUser().getUsername());
+            });
+        }
+        return all;
     }
 
     @Override
     public House findOne(Long id) {
-        return null;
+        House house = houseRepository.findById(id).orElseThrow(() -> new SystemErrorException("房产信息不存在"));
+        house.setUsername(house.getUser().getId()+"");
+        return house;
+    }
+
+    @Override
+    public void batchDelete(Set<Long> ids) {
+        houseRepository.deleteInBatch(ids);
     }
 }

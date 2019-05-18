@@ -24,6 +24,6 @@ public class RoleDto {
     @ApiModelProperty("权限所包含的用户数")
     private int citeNum;
 
-    @ApiModelProperty("菜单列表")
-    private Set<MenuDto> menus;
+    //@ApiModelProperty("菜单列表")
+    //private Set<MenuDto> menus;
 }

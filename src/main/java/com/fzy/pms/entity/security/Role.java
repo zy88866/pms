@@ -40,7 +40,7 @@ public class Role extends Base {
     @NotBlank(message = "描述不能为空")
     private String remark;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "roles_menus",
             joinColumns = {@JoinColumn(name = "role_id",referencedColumnName = "id")},
