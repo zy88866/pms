@@ -24,6 +24,6 @@ public interface BaseService<T> {
 
     T findOne(Long id);
 
-    void batchDelete(Set<Long> ids);
+    default void batchDelete(Set<Long> ids){}
 
 }
