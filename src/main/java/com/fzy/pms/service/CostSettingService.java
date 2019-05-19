@@ -10,17 +10,8 @@ import org.springframework.data.domain.Pageable;
  * @author: fzy
  * @date: 2019/04/17 23:19:51
  **/
-public interface CostSettingService {
-
-    Page<CostSetting> findAll(Pageable pageableDefault);
-
-    void create(CostSetting costSetting);
-
-    void update(CostSetting costSetting);
-
-    void delete(Long id);
+public interface CostSettingService extends BaseService<CostSetting> {
 
     Page<CostSetting> findCostSetByNameLike(String name,Pageable pageable);
 
-    CostSetting findOne(Long id);
 }
