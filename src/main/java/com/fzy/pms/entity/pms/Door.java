@@ -1,11 +1,8 @@
 package com.fzy.pms.entity.pms;
 
-import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fzy.pms.entity.enums.Constants;
-import com.fzy.pms.entity.enums.DoorStatus;
+import com.fzy.pms.entity.enums.UserStatus;
 import com.fzy.pms.entity.enums.DoorType;
 import com.fzy.pms.entity.security.Base;
 import com.fzy.pms.entity.security.User;
@@ -35,16 +32,16 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper=false)
 public class Door extends Base {
 
-    @ApiModelProperty("门禁状态")
+    @ApiModelProperty("使用状态")
     @Enumerated(EnumType.STRING)
-    private DoorStatus doorStatus=DoorStatus.ENABLED;
+    private UserStatus userStatus= UserStatus.ENABLED;
 
     @ApiModelProperty("开门方式")
     @Enumerated(EnumType.STRING)
     private DoorType doorType;
 
     @ApiModelProperty("用户")
-    @NotNull(groups = {Update.class, CostSetting.Save.class},message = "用户不能为空")
+    @NotNull(groups = {Update.class, Save.class},message = "用户不能为空")
     @ManyToOne(fetch = FetchType.EAGER,optional = false)
     @JoinColumn(name = "user_id")
     private User user;

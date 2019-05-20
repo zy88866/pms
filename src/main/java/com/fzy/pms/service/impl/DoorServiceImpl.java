@@ -2,9 +2,8 @@ package com.fzy.pms.service.impl;
 
 import com.fzy.pms.dao.DoorRepository;
 import com.fzy.pms.entity.dto.DoorDto;
-import com.fzy.pms.entity.enums.DoorStatus;
+import com.fzy.pms.entity.enums.UserStatus;
 import com.fzy.pms.entity.pms.Door;
-import com.fzy.pms.exception.SystemErrorException;
 import com.fzy.pms.service.DoorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -32,13 +31,13 @@ public class DoorServiceImpl implements DoorService {
 
     @Override
     public void create(Door door) {
-        door.setDoorStatus(DoorStatus.ENABLED);
+        door.setUserStatus(UserStatus.ENABLED);
         doorRepository.save(door);
     }
 
     @Override
     public DoorDto updateDoorStatus(Door door) {
-        doorRepository.updateDoorStatus(door);
+        doorRepository.updateUserStatus(door);
         return doorRepository.findOneById(door.getId());
     }
 

@@ -24,18 +24,18 @@ public interface DoorRepository extends JpaRepository<Door, Long> {
 
     @Transactional
     @Modifying
-    @Query(value = "update Door door set door.doorStatus= :#{#door.doorStatus} where id= :#{#door.id}")
-    void updateDoorStatus(@Param("door") Door door);
+    @Query(value = "update Door door set door.userStatus= :#{#door.userStatus} where id= :#{#door.id}")
+    void updateUserStatus(@Param("door") Door door);
 
-    @Query("SELECT new com.fzy.pms.entity.dto.DoorDto(door.id ,user.username,door.doorStatus,door.expireDate,door.doorType) FROM Door door " +
+    @Query("SELECT new com.fzy.pms.entity.dto.DoorDto(door.id ,user.username,door.userStatus,door.expireDate,door.doorType) FROM Door door " +
             "left join User user on user.id=door.user where door.id= :id")
     DoorDto findOneById(@Param("id") Long id);
 
-    @Query("SELECT new com.fzy.pms.entity.dto.DoorDto(door.id ,user.username,door.doorStatus,door.expireDate,door.doorType) FROM Door door " +
+    @Query("SELECT new com.fzy.pms.entity.dto.DoorDto(door.id ,user.username,door.userStatus,door.expireDate,door.doorType) FROM Door door " +
             "left join User user on user.id=door.user ")
     Page<DoorDto> findAllDto(Pageable pageable);
 
-    @Query("SELECT new com.fzy.pms.entity.dto.DoorDto(door.id ,user.username,door.doorStatus,door.expireDate,door.doorType) FROM Door door " +
+    @Query("SELECT new com.fzy.pms.entity.dto.DoorDto(door.id ,user.username,door.userStatus,door.expireDate,door.doorType) FROM Door door " +
             "left join User user on user.id=door.user where user.id= :userId")
     Page<DoorDto> search(@Param("userId") Long userId, Pageable pageable);
 }
