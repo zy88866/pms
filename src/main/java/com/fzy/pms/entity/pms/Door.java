@@ -1,5 +1,6 @@
 package com.fzy.pms.entity.pms;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -36,7 +37,7 @@ public class Door extends Base {
 
     @ApiModelProperty("门禁状态")
     @Enumerated(EnumType.STRING)
-    private DoorStatus doorStatus;
+    private DoorStatus doorStatus=DoorStatus.ENABLED;
 
     @ApiModelProperty("开门方式")
     @Enumerated(EnumType.STRING)
@@ -49,24 +50,11 @@ public class Door extends Base {
     private User user;
 
     @ApiModelProperty("到期日期")
-    @JsonFormat(pattern="yyyy-mm-dd HH:mm:ss",timezone="GMT+8")
+    @JsonFormat(pattern="yyyy-MM-dd",locale = "zh", timezone = "GMT+8")
+    @Temporal(TemporalType.DATE)
     private Date expireDate;
 
     public interface Save {
     }
-
-    @JsonIgnore
-    public User getUser() {
-        return user;
-    }
-
-    @JsonProperty
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    @ApiModelProperty("用户名")
-    @Transient
-    private String username;
 
 }

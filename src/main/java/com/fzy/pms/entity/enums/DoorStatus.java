@@ -8,5 +8,5 @@ package com.fzy.pms.entity.enums;
  **/
 public enum DoorStatus {
     DISABLED,
-    ABLED
+    ENABLED
 }

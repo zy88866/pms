@@ -1,6 +1,7 @@
 package com.fzy.pms.web.controller;
 
 import com.fzy.pms.entity.pms.CostSetting;
+import com.fzy.pms.entity.pms.Door;
 import com.fzy.pms.entity.pms.House;
 import com.fzy.pms.entity.rest.Result;
 import com.fzy.pms.service.HouseService;
@@ -32,7 +33,7 @@ public class HouseController  {
 
     @GetMapping("/all")
     @ApiOperation(value = "查询全部房产",notes = "查询全部房产")
-    public Result getHouse(@PageableDefault(sort = {"createTime"},direction = Sort.Direction.DESC) Pageable pageable){
+    public Result getAllHouse(@PageableDefault(sort = {"createTime"},direction = Sort.Direction.DESC) Pageable pageable){
         Page<House> allData = houseService.findAll(pageable);
         return Result.success(allData);
     }

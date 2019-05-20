@@ -12,7 +12,7 @@ import lombok.Getter;
 public enum DoorType {
 
     QR("二维码"),
-    NFC("射频卡");
+    NFC("门禁卡");
 
     private String name;
 
