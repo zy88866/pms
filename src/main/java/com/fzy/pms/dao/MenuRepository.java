@@ -18,13 +18,6 @@ import java.util.List;
 public interface MenuRepository extends JpaRepository<Menu,Long>, JpaSpecificationExecutor {
 
     /**
-     * 根据菜单名查询
-     * @param name
-     * @return
-     */
-    Menu findByName(String name);
-
-    /**
      * 根据父id 查询
      * @param Pid
      * @return

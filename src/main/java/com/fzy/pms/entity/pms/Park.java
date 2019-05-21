@@ -54,7 +54,7 @@ public class Park extends Base {
 
     @ApiModelProperty("使用状态")
     @Enumerated(EnumType.STRING)
-    private UserStatus userStatus= UserStatus.ENABLED;
+    private UserStatus userStatus;
 
     public interface Save {
     }

@@ -1,9 +1,13 @@
 package com.fzy.pms.service.impl;
 
 import com.fzy.pms.dao.ParkRepository;
+import com.fzy.pms.entity.dto.ParkDto;
+import com.fzy.pms.entity.enums.UserStatus;
 import com.fzy.pms.entity.pms.Park;
 import com.fzy.pms.service.ParkService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 /**
@@ -20,6 +24,23 @@ public class ParkServiceImpl implements ParkService {
 
     @Override
     public void create(Park park) {
+        park.setUserStatus(UserStatus.ENABLED);
+        parkRepository.save(park);
+    }
 
+    @Override
+    public Page<ParkDto> findAllDto(Pageable pageable) {
+        return parkRepository.findAllDto(pageable);
+    }
+
+    @Override
+    public Page<ParkDto> search(Long userId, Pageable pageable) {
+        return parkRepository.search(userId,pageable);
+    }
+
+    @Override
+    public ParkDto updateUseStatus(Park park) {
+        parkRepository.updateUserStatus(park);
+        return parkRepository.findOne(park.getId());
     }
 }
