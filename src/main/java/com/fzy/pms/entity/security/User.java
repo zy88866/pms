@@ -3,6 +3,7 @@ package com.fzy.pms.entity.security;
 import com.fzy.pms.entity.enums.Constants;
 import com.google.common.collect.Sets;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.SQLDelete;
@@ -15,6 +16,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import java.math.BigDecimal;
 import java.util.Collection;
 
 /**
@@ -48,6 +50,10 @@ public class User extends Base implements UserDetails {
 
     @NotBlank(message = "名字不能为空")
     private String realName;
+
+    @ApiModelProperty("账户余额")
+    @Column(columnDefinition = "decimal(19,2) default 0")
+    private BigDecimal balance=BigDecimal.ZERO;
 
     @ManyToOne(cascade = CascadeType.REFRESH,fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id", referencedColumnName="id",nullable = false)

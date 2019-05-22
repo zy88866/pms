@@ -47,10 +47,10 @@ public class DoorController {
     @GetMapping("/search")
     @ApiOperation(value = "根据用户id 查询全部门禁",notes = "根据用户id 查询全部门禁")
     public Result search(@RequestParam("userId") String userId,@PageableDefault(sort = {"createTime"},direction = Sort.Direction.DESC) Pageable pageable){
-        if(!userId.equals("null")){
-            return Result.success(doorService.search(Long.parseLong(userId),pageable));
-        }else {
+        if(StringUtils.isBlank(userId) || userId.equals("null")){
             return this.getAllDoor(pageable);
+        }else {
+            return Result.success(doorService.search(Long.parseLong(userId),pageable));
         }
     }
 
