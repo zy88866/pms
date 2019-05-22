@@ -40,7 +40,7 @@ public class Repairs extends Base{
 
     @ApiModelProperty("报修项目")
     @NotBlank(message = "报修项目不能为空")
-    private String RepairsType;
+    private String repairsType;
 
     @ApiModelProperty("备注")
     private String remark;
@@ -59,13 +59,17 @@ public class Repairs extends Base{
 
     @ApiModelProperty("报修时间")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date RepairsDate;
+    private Date repairsDate;
+
+    @ApiModelProperty("报修时间")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date finishDate;
 
     @ApiModelProperty("报修单号")
-    private String RepairsBillNo;
+    private String repairsBillNo;
 
     @ApiModelProperty("维修价格")
-    private BigDecimal RepairsPrice;
+    private BigDecimal repairsPrice;
 
     @Enumerated(EnumType.STRING)
     @ApiModelProperty("维修状态")
