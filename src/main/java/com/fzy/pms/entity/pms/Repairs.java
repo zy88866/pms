@@ -12,6 +12,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -24,7 +25,7 @@ import java.util.Date;
  **/
 @Data
 @ApiModel("报修管理")
-@Table(name = "t_park")
+@Table(name = "t_repairs")
 @Entity
 @SQLDelete(sql = "update t_repairs set delete_flag="+ Constants.DELETED+" where id= ?")
 @Where(clause = "delete_flag="+ Constants.NORMEL)
@@ -38,7 +39,23 @@ public class Repairs extends Base{
     private User user;
 
     @ApiModelProperty("报修项目")
+    @NotBlank(message = "报修项目不能为空")
     private String RepairsType;
+
+    @ApiModelProperty("备注")
+    private String remark;
+
+    @ApiModelProperty("联系人")
+    @NotBlank(message = "联系人不能为空")
+    private String linkman;
+
+    @ApiModelProperty("联系电话")
+    @NotBlank(message = "联系电话不能为空")
+    private String linkPhone;
+
+    @ApiModelProperty("联系地址")
+    @NotBlank(message = "联系地址不能为空")
+    private String linkAddress;
 
     @ApiModelProperty("报修时间")
     @Temporal(TemporalType.TIMESTAMP)
