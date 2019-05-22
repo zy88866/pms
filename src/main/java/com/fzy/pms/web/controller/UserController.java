@@ -7,6 +7,7 @@ import com.fzy.pms.entity.enums.RestCode;
 import com.fzy.pms.entity.rest.Result;
 import com.fzy.pms.entity.security.Role;
 import com.fzy.pms.entity.security.User;
+import com.fzy.pms.entity.vo.UserVo;
 import com.fzy.pms.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -82,6 +83,12 @@ public class UserController {
         role.setId(roleId);
         user.setRole(role);
         return  Result.success(userService.search(user));
+    }
+
+    @PostMapping("/updatePassword")
+    public Result updatePassword(@RequestBody UserVo userVo){
+        int i = userService.updatePassword(userVo);
+        return i==0?Result.success():Result.failure("旧密码错误");
     }
 
 }

@@ -2,6 +2,7 @@ package com.fzy.pms.service;
 
 import com.fzy.pms.entity.dto.UserDto;
 import com.fzy.pms.entity.security.User;
+import com.fzy.pms.entity.vo.UserVo;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
@@ -72,4 +73,10 @@ public interface UserService extends UserDetailsService {
      * @return
      */
     Optional<UserDto> findUser(Long id);
+
+    /**
+     * 更新密码
+     * @param userVo
+     */
+    int updatePassword(UserVo userVo);
 }

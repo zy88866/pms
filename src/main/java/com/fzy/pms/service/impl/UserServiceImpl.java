@@ -5,6 +5,7 @@ import com.fzy.pms.dao.UserRepository;
 import com.fzy.pms.entity.dto.UserDto;
 import com.fzy.pms.entity.mapper.UserMapper;
 import com.fzy.pms.entity.security.User;
+import com.fzy.pms.entity.vo.UserVo;
 import com.fzy.pms.exception.SystemErrorException;
 import com.fzy.pms.service.UserService;
 import org.apache.commons.lang3.StringUtils;
@@ -150,5 +151,18 @@ public class UserServiceImpl implements UserService {
     public Optional<UserDto> findUser(Long id) {
         Optional<User> user = userRepository.findById(id);
         return user.map(userMapper::toDto);
+    }
+
+    @Override
+    public int updatePassword(UserVo userVo) {
+        User user = userRepository.findById(userVo.getId()).orElseThrow(()-> new SystemErrorException("用户不存在"));
+        if(bCryptPasswordEncoder.matches(userVo.oldPassword,user.getPassword())){
+            //密码加密
+            user.setPassword(bCryptPasswordEncoder.encode(userVo.getNewPassword()));
+            userRepository.save(user);
+            return 0;
+        }else {
+            return -1;
+        }
     }
 }
