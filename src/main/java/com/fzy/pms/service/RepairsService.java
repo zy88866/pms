@@ -1,10 +1,13 @@
 package com.fzy.pms.service;
 
 import com.fzy.pms.entity.dto.RepairsDto;
+import com.fzy.pms.entity.dto.RepairsReportDto;
 import com.fzy.pms.entity.pms.Repairs;
 import com.fzy.pms.entity.vo.RepairVo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 /**
  * @program: RepairsService
@@ -34,8 +37,12 @@ public interface RepairsService extends BaseService<Repairs> {
      * @param pageable
      * @return
      */
-    Page<RepairsDto> search(Long userId,Pageable pageable);
+    Page<RepairsDto> search(Long userId, Pageable pageable);
 
-
-
+    /**
+     * 报表查询
+     * @param userId
+     * @return
+     */
+    List<RepairsReportDto> report(String userId);
 }

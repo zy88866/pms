@@ -44,7 +44,7 @@ public class RepairsController {
 
     @GetMapping("/search")
     @ApiOperation(value = "查询全部报修单",notes = "查询全部报修单")
-    public Result search(@RequestParam ()String userId, @PageableDefault(sort = {"createTime"},direction = Sort.Direction.DESC) Pageable pageable){
+    public Result search(@RequestParam ("userId")String userId, @PageableDefault(sort = {"createTime"},direction = Sort.Direction.DESC) Pageable pageable){
         if(StringUtils.isBlank(userId)||userId.equals("null")){
             return this.findAllDto(pageable);
         }else {
@@ -66,5 +66,10 @@ public class RepairsController {
         return Result.success();
     }
 
+    @GetMapping("/report")
+    @ApiOperation(value = "报表查询",notes = "报表查询")
+    public Result report(@RequestParam ("userId")String userId){
+        return Result.success(repairsService.report(userId));
+    }
 
 }

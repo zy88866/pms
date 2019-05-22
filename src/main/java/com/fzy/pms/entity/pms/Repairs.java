@@ -61,7 +61,7 @@ public class Repairs extends Base{
     @Temporal(TemporalType.TIMESTAMP)
     private Date repairsDate;
 
-    @ApiModelProperty("报修时间")
+    @ApiModelProperty("完成时间")
     @Temporal(TemporalType.TIMESTAMP)
     private Date finishDate;
 
