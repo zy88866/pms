@@ -19,5 +19,7 @@ public class AccountDto {
 
     private String username;
 
+    private String realName;
+
     private BigDecimal balance;
 }

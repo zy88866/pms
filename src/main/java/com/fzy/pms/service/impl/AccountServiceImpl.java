@@ -5,6 +5,8 @@ import com.fzy.pms.dao.UserRepository;
 import com.fzy.pms.entity.dto.AccountDetailDto;
 import com.fzy.pms.entity.dto.AccountDto;
 import com.fzy.pms.entity.pms.AccountDetail;
+import com.fzy.pms.entity.security.User;
+import com.fzy.pms.exception.SystemErrorException;
 import com.fzy.pms.service.AccountService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +41,8 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Page<AccountDto> search(Long userId,Pageable pageable) {
-        return userRepository.findAccountByUserId(userId,pageable);
+        User user = userRepository.findById(userId).orElseThrow(() -> new SystemErrorException("用户不存在"));
+        return userRepository.findAccountByUserId(user.getUsername(),pageable);
     }
 
     @Override

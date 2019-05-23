@@ -22,9 +22,9 @@ public interface UserRepository extends JpaRepository<User,Long>, JpaSpecificati
     @Query(value ="update User set deleteFlag=1 where id=:id")
     int lockUser(@Param("id") Long id);
 
-    @Query(value ="select new com.fzy.pms.entity.dto.AccountDto(user.id,user.username,user.balance) from User user")
+    @Query(value ="select new com.fzy.pms.entity.dto.AccountDto(user.id,user.username,user.realName,user.balance) from User user")
     Page<AccountDto> findAccountAll(Pageable pageable);
 
-    @Query(value ="select new com.fzy.pms.entity.dto.AccountDto(user.id,user.username,user.balance) from User user where id= :id")
-    Page<AccountDto> findAccountByUserId(@Param("id") Long id,Pageable pageable);
+    @Query(value ="select new com.fzy.pms.entity.dto.AccountDto(user.id,user.username,user.realName,user.balance) from User user where username= :username")
+    Page<AccountDto> findAccountByUserId(@Param("username") String username,Pageable pageable);
 }

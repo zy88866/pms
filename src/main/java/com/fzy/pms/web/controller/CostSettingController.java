@@ -35,6 +35,12 @@ public class CostSettingController {
         return Result.success(allData);
     }
 
+    @GetMapping("/costAll")
+    @ApiOperation(value = "查询全部费用",notes = "查询全部费用")
+    public Result getCostAll(){
+        return Result.success( costSettingService.findAll());
+    }
+
     @GetMapping("/search")
     @ApiOperation(value = "根据费用名称模糊搜索",notes = "根据费用名称模糊搜索")
     public Result searchCostName(@RequestParam("costName")String costName,@PageableDefault(sort = {"createTime"},direction = Sort.Direction.DESC) Pageable pageable){

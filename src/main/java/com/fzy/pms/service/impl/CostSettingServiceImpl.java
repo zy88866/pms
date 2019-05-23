@@ -9,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @program: CostSettingServiceImpl
  * @description:
@@ -55,5 +57,10 @@ public class CostSettingServiceImpl implements CostSettingService {
     @Override
     public CostSetting findOne(Long id) {
         return costSettingRepository.findById(id).orElseThrow(()->new SystemErrorException("费用不存在"));
+    }
+
+    @Override
+    public List<CostSetting> findAll() {
+        return costSettingRepository.findAll();
     }
 }
