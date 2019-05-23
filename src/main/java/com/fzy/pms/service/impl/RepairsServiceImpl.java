@@ -1,6 +1,7 @@
 package com.fzy.pms.service.impl;
 
 import com.fzy.pms.dao.RepairsRepository;
+import com.fzy.pms.dao.UserRepository;
 import com.fzy.pms.entity.dto.RepairsDto;
 import com.fzy.pms.entity.dto.RepairsReportDto;
 import com.fzy.pms.entity.enums.RepairsStatus;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -28,6 +30,9 @@ public class RepairsServiceImpl implements RepairsService {
 
     @Autowired
     private RepairsRepository repairsRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public void create(Repairs repairs) {
@@ -52,10 +57,15 @@ public class RepairsServiceImpl implements RepairsService {
     }
 
     @Override
+    @Transactional
     public void endDispatch(RepairVo repairVo) {
         repairsRepository.findById(repairVo.getId()).ifPresent(detail ->{
             detail.setRepairsStatus(RepairsStatus.YES);
             detail.setFinishDate(new Date());
+            userRepository.findById(detail.getUser().getId()).ifPresent(user ->{
+                user.setBalance(user.getBalance().subtract(detail.getRepairsPrice()));
+                userRepository.save(user);
+            });
             repairsRepository.save(detail);
         });
     }

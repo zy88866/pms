@@ -23,6 +23,7 @@ INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, n
 INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, name, path, pid)VALUES (200,now(),0,now(),'Layout' ,'pms-icon-shoufeiguanli' ,'收费管理','/cost',0 );
 INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, name, path, pid)VALUES (201,now(),0,now(),'Cost/Set' ,'pms-icon-feiyongshezhi' ,'费用设置','/cost/setting',200 );
 INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, name, path, pid)VALUES (202,now(),0,now(),'Cost/Recharge' ,'pms-icon-chongczhi' ,'充值缴费','/cost/recharge',200 );
+INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, name, path, pid)VALUES (203,now(),0,now(),'Cost/Settle' ,'pms-icon-jiesuan' ,'费用结算','/cost/settle',200 );
 INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, name, path, pid)VALUES (300,now(),0,now(),'Layout' ,'pms-icon-ziyuanguanli' ,'资源管理','/resource',0 );
 INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, name, path, pid)VALUES (301,now(),0,now(),'Resource/House' ,'pms-icon-fangchan' ,'房产管理','/resource/house',300 );
 INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, name, path, pid)VALUES (302,now(),0,now(),'Resource/Park' ,'pms-icon-chewei' ,'车位管理','/resource/park',300 );
