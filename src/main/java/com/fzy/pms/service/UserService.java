@@ -79,4 +79,11 @@ public interface UserService extends UserDetailsService {
      * @param userVo
      */
     int updatePassword(UserVo userVo);
+
+
+    /**
+     * 重值密码
+     * @param userId
+     */
+    void resetPassword(Long userId);
 }

@@ -26,4 +26,6 @@ jwt:
   expiration: 30 # 过期时间 单位分钟
   time-out: 30   # 超时时间 单位分钟
   secret: uKd?J|tt9wE[._U+$==X?-@#NZ\,Um=@
+sys:
+  initPassword: 123123
 

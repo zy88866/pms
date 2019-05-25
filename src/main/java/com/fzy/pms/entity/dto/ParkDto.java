@@ -1,9 +1,8 @@
 package com.fzy.pms.entity.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fzy.pms.entity.enums.DoorType;
 import com.fzy.pms.entity.enums.ParkType;
-import com.fzy.pms.entity.enums.UserStatus;
+import com.fzy.pms.entity.enums.UseStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -23,7 +22,7 @@ public class ParkDto {
 
     private String username;
 
-    private UserStatus userStatus;
+    private UseStatus useStatus;
 
     @JsonFormat(pattern="yyyy-MM-dd",locale = "zh", timezone = "GMT+8")
     private Date expireDate;

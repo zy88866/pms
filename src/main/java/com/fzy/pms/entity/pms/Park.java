@@ -3,7 +3,7 @@ package com.fzy.pms.entity.pms;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fzy.pms.entity.enums.Constants;
 import com.fzy.pms.entity.enums.ParkType;
-import com.fzy.pms.entity.enums.UserStatus;
+import com.fzy.pms.entity.enums.UseStatus;
 import com.fzy.pms.entity.security.Base;
 import com.fzy.pms.entity.security.User;
 import io.swagger.annotations.ApiModel;
@@ -54,7 +54,7 @@ public class Park extends Base {
 
     @ApiModelProperty("使用状态")
     @Enumerated(EnumType.STRING)
-    private UserStatus userStatus;
+    private UseStatus useStatus;
 
     public interface Save {
     }

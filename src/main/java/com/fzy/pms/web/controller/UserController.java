@@ -86,9 +86,17 @@ public class UserController {
     }
 
     @PostMapping("/updatePassword")
+    @ApiOperation(value = "修改密码", notes = "修改密码")
     public Result updatePassword(@RequestBody UserVo userVo){
         int i = userService.updatePassword(userVo);
         return i==0?Result.success():Result.failure("旧密码错误");
+    }
+
+    @PutMapping("/{id:\\d+}")
+    @ApiOperation(value = "重置密码", notes = "重置密码")
+    public Result resetPassword(@PathVariable("id") Long userId){
+        userService.resetPassword(userId);
+        return Result.success();
     }
 
 }

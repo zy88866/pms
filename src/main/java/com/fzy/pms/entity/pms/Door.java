@@ -2,7 +2,7 @@ package com.fzy.pms.entity.pms;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fzy.pms.entity.enums.Constants;
-import com.fzy.pms.entity.enums.UserStatus;
+import com.fzy.pms.entity.enums.UseStatus;
 import com.fzy.pms.entity.enums.DoorType;
 import com.fzy.pms.entity.security.Base;
 import com.fzy.pms.entity.security.User;
@@ -34,7 +34,7 @@ public class Door extends Base {
 
     @ApiModelProperty("使用状态")
     @Enumerated(EnumType.STRING)
-    private UserStatus userStatus= UserStatus.ENABLED;
+    private UseStatus useStatus= UseStatus.ENABLED;
 
     @ApiModelProperty("开门方式")
     @Enumerated(EnumType.STRING)

@@ -21,20 +21,20 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public interface ParkRepository extends JpaRepository<Park,Long> {
 
-    @Query("SELECT new com.fzy.pms.entity.dto.ParkDto(park.id ,user.username,park.userStatus,park.expireDate,park.parkType,park.position) FROM Park park " +
+    @Query("SELECT new com.fzy.pms.entity.dto.ParkDto(park.id ,user.username,park.useStatus,park.expireDate,park.parkType,park.position) FROM Park park " +
             "left join User user on user.id=park.user ")
     Page<ParkDto> findAllDto(Pageable pageable);
 
-    @Query("SELECT new com.fzy.pms.entity.dto.ParkDto(park.id ,user.username,park.userStatus,park.expireDate,park.parkType,park.position) FROM Park park " +
+    @Query("SELECT new com.fzy.pms.entity.dto.ParkDto(park.id ,user.username,park.useStatus,park.expireDate,park.parkType,park.position) FROM Park park " +
             "left join User user on user.id=park.user where user.id= :userId")
     Page<ParkDto> search(@Param("userId") Long userId, Pageable pageable);
 
     @Transactional
     @Modifying
-    @Query(value = "update Park park set park.userStatus= :#{#park.userStatus} where id= :#{#park.id}")
-    void updateUserStatus(@Param("park") Park park);
+    @Query(value = "update Park park set park.useStatus= :#{#park.useStatus} where id= :#{#park.id}")
+    void updateUseStatus(@Param("park") Park park);
 
-    @Query("SELECT new com.fzy.pms.entity.dto.ParkDto(park.id ,user.username,park.userStatus,park.expireDate,park.parkType,park.position) FROM Park park " +
+    @Query("SELECT new com.fzy.pms.entity.dto.ParkDto(park.id ,user.username,park.useStatus,park.expireDate,park.parkType,park.position) FROM Park park " +
             "left join User user on user.id=park.user where park.id=?1")
     ParkDto findOne(Long id);
 

@@ -2,22 +2,17 @@ package com.fzy.pms.web.controller;
 
 import com.fzy.pms.entity.dto.AccountDto;
 import com.fzy.pms.entity.pms.AccountDetail;
-import com.fzy.pms.entity.pms.House;
 import com.fzy.pms.entity.rest.Result;
 import com.fzy.pms.service.AccountService;
-import com.sun.org.apache.bcel.internal.generic.NEW;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Objects;
 
 /**
  * @program: AccountController

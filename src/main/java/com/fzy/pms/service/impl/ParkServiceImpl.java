@@ -2,7 +2,7 @@ package com.fzy.pms.service.impl;
 
 import com.fzy.pms.dao.ParkRepository;
 import com.fzy.pms.entity.dto.ParkDto;
-import com.fzy.pms.entity.enums.UserStatus;
+import com.fzy.pms.entity.enums.UseStatus;
 import com.fzy.pms.entity.pms.Park;
 import com.fzy.pms.service.ParkService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ public class ParkServiceImpl implements ParkService {
 
     @Override
     public void create(Park park) {
-        park.setUserStatus(UserStatus.ENABLED);
+        park.setUseStatus(UseStatus.ENABLED);
         parkRepository.save(park);
     }
 
@@ -40,7 +40,7 @@ public class ParkServiceImpl implements ParkService {
 
     @Override
     public ParkDto updateUseStatus(Park park) {
-        parkRepository.updateUserStatus(park);
+        parkRepository.updateUseStatus(park);
         return parkRepository.findOne(park.getId());
     }
 }

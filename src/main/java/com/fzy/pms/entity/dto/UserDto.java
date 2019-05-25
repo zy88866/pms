@@ -1,5 +1,6 @@
 package com.fzy.pms.entity.dto;
 
+import com.fzy.pms.entity.enums.UseStatus;
 import com.fzy.pms.entity.security.Role;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -24,5 +25,7 @@ public class UserDto {
     private String realName;
 
     private RoleDto role;
+
+    private UseStatus useStatus;
 
 }

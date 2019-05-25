@@ -3,6 +3,7 @@ package com.fzy.pms.service.impl;
 import com.fzy.pms.dao.RoleRepository;
 import com.fzy.pms.dao.UserRepository;
 import com.fzy.pms.entity.dto.UserDto;
+import com.fzy.pms.entity.enums.UseStatus;
 import com.fzy.pms.entity.mapper.UserMapper;
 import com.fzy.pms.entity.security.User;
 import com.fzy.pms.entity.vo.UserVo;
@@ -10,6 +11,7 @@ import com.fzy.pms.exception.SystemErrorException;
 import com.fzy.pms.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.Authentication;
@@ -20,10 +22,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -50,6 +49,9 @@ public class UserServiceImpl implements UserService {
 
     @Resource
     private UserMapper userMapper;
+
+    @Value("${sys.initPassword}")
+    private String INIT_PASSWORD;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -85,7 +87,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void lockUser(Long id){
-        userRepository.deleteById(id);
+        userRepository.findById(id).ifPresent(user->{
+            switch (user.getUseStatus()){
+                case ENABLED:
+                    user.setUseStatus(UseStatus.DISABLED);
+                    break;
+                case DISABLED:
+                    user.setUseStatus(UseStatus.ENABLED);
+                    break;
+            }
+            userRepository.save(user);
+        });
     }
 
     @Override
@@ -164,5 +176,13 @@ public class UserServiceImpl implements UserService {
         }else {
             return -1;
         }
+    }
+
+    @Override
+    public void resetPassword(Long userId) {
+        userRepository.findById(userId).ifPresent(user ->{
+            user.setPassword(bCryptPasswordEncoder.encode(INIT_PASSWORD));
+            userRepository.save(user);
+        });
     }
 }

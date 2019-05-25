@@ -1,6 +1,7 @@
 package com.fzy.pms.entity.security;
 
 import com.fzy.pms.entity.enums.Constants;
+import com.fzy.pms.entity.enums.UseStatus;
 import com.google.common.collect.Sets;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -55,6 +56,10 @@ public class User extends Base implements UserDetails {
     @Column(columnDefinition = "decimal(19,2) default 0")
     private BigDecimal balance=BigDecimal.ZERO;
 
+    @ApiModelProperty("激活用户状态")
+    @Enumerated(EnumType.STRING)
+    private UseStatus useStatus= UseStatus.ENABLED;
+
     @ManyToOne(cascade = CascadeType.REFRESH,fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id", referencedColumnName="id",nullable = false)
     private Role role;
@@ -86,7 +91,7 @@ public class User extends Base implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return getDeleteFlag()==Integer.parseInt(Constants.NORMEL);
+        return useStatus.equals(UseStatus.ENABLED);
     }
 
 }
