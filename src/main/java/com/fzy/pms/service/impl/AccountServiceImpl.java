@@ -47,7 +47,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     @Transactional
-    public void payment(AccountDetail accountDetail) {
+    public synchronized void payment(AccountDetail accountDetail) {
         userRepository.findById(accountDetail.getUser().getId()).ifPresent(detail->{
             detail.setBalance(detail.getBalance().add(accountDetail.getMoney()));
             userRepository.save(detail);
