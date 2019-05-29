@@ -55,11 +55,10 @@ public class SettleServiceImpl implements SettleService {
     @Override
     public List<SettleDto> report(String userId) {
         Sort sort=new Sort(Sort.Direction.DESC,"createTime");
-//        if(StringUtils.isBlank(userId) || userId.equals("null")){
-//            return costSettingRepository.findAllReportDto(sort);
-//        }else{
-//            return costSettingRepository.report(Long.parseLong(userId),sort);
-//        }
-        return Collections.emptyList();
+        if(StringUtils.isBlank(userId) || userId.equals("null")){
+            return costSettingRepository.findAllReportDto(sort);
+        }else{
+            return costSettingRepository.report(Long.parseLong(userId),sort);
+        }
     }
 }
