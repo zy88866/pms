@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -54,10 +55,11 @@ public class SettleServiceImpl implements SettleService {
     @Override
     public List<SettleDto> report(String userId) {
         Sort sort=new Sort(Sort.Direction.DESC,"createTime");
-        if(StringUtils.isBlank(userId) || userId.equals("null")){
-            return costSettingRepository.findAllReportDto(sort);
-        }else{
-            return costSettingRepository.report(Long.parseLong(userId),sort);
-        }
+//        if(StringUtils.isBlank(userId) || userId.equals("null")){
+//            return costSettingRepository.findAllReportDto(sort);
+//        }else{
+//            return costSettingRepository.report(Long.parseLong(userId),sort);
+//        }
+        return Collections.emptyList();
     }
 }

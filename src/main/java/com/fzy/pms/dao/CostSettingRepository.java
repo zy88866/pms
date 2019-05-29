@@ -24,7 +24,7 @@ public interface CostSettingRepository extends JpaRepository<CostSetting,Long> {
 
     Page<CostSetting> findCostSettingByCostNameLike(String name, Pageable pageable);
 
-    @Query("select new com.fzy.pms.entity.dto.SettleDto(user.id,user.username,user.realName," +
+/*    @Query("select new com.fzy.pms.entity.dto.SettleDto(user.id,user.username,user.realName," +
             "cost.costName,settle.totalPrice,settle.settingDate) from Settle settle" +
             "left join User user on user.id=settle.user_id" +
             "left join CostSetting cost on cost.id=settle.cost_id")
@@ -35,5 +35,5 @@ public interface CostSettingRepository extends JpaRepository<CostSetting,Long> {
             "cost.costName,settle.totalPrice,settle.settingDate) from Settle settle" +
             "left join User user on user.id=settle.user_id" +
             "left join CostSetting cost on cost.id=settle.cost_id where user.id= :userId")
-    List<SettleDto> report(@Param("userId") Long userId, Sort sort);
+    List<SettleDto> report(@Param("userId") Long userId, Sort sort);*/
 }

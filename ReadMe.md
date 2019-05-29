@@ -32,8 +32,9 @@ INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, n
 INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, name, path, pid)VALUES (401,now(),0,now(),'Repairs/Apply' ,'pms-icon-weixiu' ,'报修申请','/repairs/apply',400 );
 INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, name, path, pid)VALUES (402,now(),0,now(),'Repairs/Center' ,'pms-icon-zongbu' ,'报修中心','/repairs/center',400 );
 INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, name, path, pid)VALUES (500,now(),0,now(),'Layout' ,'pms-icon-baobiao' ,'报表中心','/report',0 );
-INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, name, path, pid)VALUES (501,now(),0,now(),'Report/Payment' ,'pms-icon-jiaofei' ,'缴费报表','/report/payment',500 );
-INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, name, path, pid)VALUES (502,now(),0,now(),'Report/Maintain' ,'pms-icon-baoxiu1' ,'维修报表','/report/maintain',500 );
+INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, name, path, pid)VALUES (501,now(),0,now(),'Report/Payment' ,'pms-icon-chongzhi' ,'充值报表','/report/payment',500 );
+INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, name, path, pid)VALUES (502,now(),0,now(),'Report/Settle' ,'pms-icon-jiaofei' ,'缴费报表','/report/settle',500 );
+INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, name, path, pid)VALUES (503,now(),0,now(),'Report/Maintain' ,'pms-icon-baoxiu1' ,'维修报表','/report/maintain',500 );
 INSERT INTO roles_menus(role_id, menu_id) VALUES (1,100);
 INSERT INTO roles_menus(role_id, menu_id) VALUES (1,101);
 INSERT INTO roles_menus(role_id, menu_id) VALUES (1,102);
@@ -49,6 +50,7 @@ INSERT INTO roles_menus(role_id, menu_id) VALUES (1,402);
 INSERT INTO roles_menus(role_id, menu_id) VALUES (1,500);
 INSERT INTO roles_menus(role_id, menu_id) VALUES (1,501);
 INSERT INTO roles_menus(role_id, menu_id) VALUES (1,502);
+INSERT INTO roles_menus(role_id, menu_id) VALUES (1,503);
 
 ```
 
