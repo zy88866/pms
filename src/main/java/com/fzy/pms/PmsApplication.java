@@ -6,12 +6,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ScmApplication {
+public class PmsApplication {
 
-    private static final Logger log = LoggerFactory.getLogger(ScmApplication.class);
+    private static final Logger log = LoggerFactory.getLogger(PmsApplication.class);
 
     public static void main(String[] args) {
-        SpringApplication.run(ScmApplication.class, args);
+        SpringApplication.run(PmsApplication.class, args);
         log.info("--启动完成--");
     }
 }
