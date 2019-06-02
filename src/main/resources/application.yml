@@ -29,3 +29,5 @@ jwt:
 sys:
   initPassword: 123123
 
+logging:
+  config: classpath:logback-test.xml
