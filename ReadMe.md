@@ -1,10 +1,12 @@
 # 物业管理系统
 
 基于前后端分离开发</br>
+1. 前端地址：https://github.com/17664206081/pms-front
+2. 后端地址：https://github.com/17664206081/pms
 
 
 ## 前端技术栈
-1. vue+Element-Ul
+1. vue cli + elementUI + Vuex
  
 
 ## 后端技术栈
