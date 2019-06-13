@@ -22,6 +22,14 @@ spring:
   thymeleaf:
     cache: false
     mode: HTML5
+  quartz:
+    job-store-type: memory
+    properties:
+      org:
+        quartz:
+          threadPool:
+            class: org.quartz.simpl.SimpleThreadPool
+            threadCount: 2
 jwt:
   expiration: 30 # 过期时间 单位分钟
   time-out: 30   # 超时时间 单位分钟
