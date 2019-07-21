@@ -23,7 +23,7 @@ public class QuartzConfig {
                 .build();
     }
 
-    @Bean
+    //@Bean
     public Trigger helloJobTrigger(){
         return TriggerBuilder.newTrigger().forJob(helloJobDetail())
                 .startNow()

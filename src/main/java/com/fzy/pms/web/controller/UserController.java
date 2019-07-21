@@ -1,9 +1,6 @@
 package com.fzy.pms.web.controller;
 
-import com.fzy.pms.dao.UserRepository;
-import com.fzy.pms.entity.dto.RoleDto;
 import com.fzy.pms.entity.dto.UserDto;
-import com.fzy.pms.entity.enums.RestCode;
 import com.fzy.pms.entity.rest.Result;
 import com.fzy.pms.entity.security.Role;
 import com.fzy.pms.entity.security.User;
