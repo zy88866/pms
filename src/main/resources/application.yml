@@ -22,6 +22,14 @@ spring:
   thymeleaf:
     cache: false
     mode: HTML5
+  quartz:
+    job-store-type: memory
+    properties:
+      org:
+        quartz:
+          threadPool:
+            class: org.quartz.simpl.SimpleThreadPool
+            threadCount: 2
 jwt:
   expiration: 30 # 过期时间 单位分钟
   time-out: 30   # 超时时间 单位分钟
@@ -31,3 +39,10 @@ sys:
 
 logging:
   config: classpath:logback-test.xml
+
+qiniu:
+  oos:
+    AccessKey: 1c611FXpkgS-Pn72mOEO2Qpi2SjH1BvunKnuGV4W
+    SecretKey: svnb40h-tDXlJEvMkAwQmtMt77B3bBef0zxyhaSZ
+    bucket: pms
+    domain: http://pux0w2a64.bkt.clouddn.com

@@ -3,6 +3,7 @@ package com.fzy.pms.exception;
 import com.fzy.pms.entity.enums.RestCode;
 import com.fzy.pms.entity.rest.Result;
 import com.google.common.collect.Sets;
+import com.qiniu.common.QiniuException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.http.HttpStatus;
@@ -51,7 +52,7 @@ public class ExceptionProcessor {
     }
 
     /**
-     * 接口不存在
+     * 接口不存在异常
      * @param
      * @return
      */
@@ -72,6 +73,18 @@ public class ExceptionProcessor {
         // 打印堆栈信息
         log.error(ExceptionUtils.getStackTrace(e));
         return Result.failure(e.getCode(),e.getMessage());
+    }
+
+    /**
+     * 七牛云文件上传异常
+     * @param e
+     * @return
+     */
+    @ExceptionHandler({QiniuException.class})
+    @ResponseStatus(value = HttpStatus.OK)
+    public Result qiniuException(QiniuException e){
+        log.error(ExceptionUtils.getStackTrace(e));
+        return  Result.failure(RestCode.SYS_ERROR_EXCEPTION.getCode(),e.response.getInfo());
     }
 
 }
