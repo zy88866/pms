@@ -24,6 +24,14 @@ public class UploadController {
     @Autowired
     private UploadFileService uploadFileService;
 
+    @GetMapping("/token")
+    @ApiOperation(value = "获取文件上传token", notes = "获取文件上传token")
+    public Result getToken(){
+        String accessToken = uploadFileService.getAccessToken();
+        return Result.success(accessToken);
+    }
+
+
     @GetMapping
     @ApiOperation(value = "文件上传",notes = "文件上传")
     public Result uploadImages()throws QiniuException {

@@ -45,7 +45,8 @@ public class FileServiceImpl implements UploadFileService, DownloadFileService {
         return auth;
     }
 
-    private String getAccessToken(){
+    @Override
+    public String getAccessToken(){
         Auth auth = this.createAuth();
         return auth.uploadToken(bucket);
     }
@@ -78,4 +79,7 @@ public class FileServiceImpl implements UploadFileService, DownloadFileService {
         }
         return null;
     }
+
+
+
 }

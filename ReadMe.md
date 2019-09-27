@@ -17,8 +17,9 @@
 ```sql
 INSERT INTO t_role(`id`, `create_time`, `delete_flag`, `update_time`, `name`, `remark`) VALUES (1, '2019-04-05 14:14:45', 0, '2019-04-05 14:14:45', '超级管理员', '权限最大,不建议分配,~~~');
 INSERT INTO t_role(`id`, `create_time`, `delete_flag`, `update_time`, `name`, `remark`) VALUES (2, '2019-04-05 14:15:45', 0, '2019-04-05 14:15:45', '业主', '缴费,保修等功能');
--- admin admin
-INSERT INTO t_user(`id`, `create_time`, `delete_flag`, `update_time`, `email`, `password`, `phone`, `real_name`, `username`, `role_id`) VALUES (1, '2019-03-23 19:55:36', 0, '2019-03-23 19:55:36', '1010101010@qq.com', '$2a$10$cKEs3EJrpXOND7HIknIjquy0yFx990fNmFtIrW9oMpKhEMMZkwq2.', '18788779966', '张三', 'admin', 1);
+-- 用户名:admin  密码:admin
+INSERT INTO t_user(`id`, `create_time`, `delete_flag`, `update_time`, `email`, `password`, `phone`, `real_name`, `username`, `role_id`, `balance`, `use_status`) 
+VALUES ('1', '2019-03-23 19:55:36', '0', '2019-05-23 08:22:06', '1010101010@qq.com', '$2a$10$APNEPFSMvKglR0xTN8KijegsOQ9iHggiq63uW.40EX3T7XDnGAEdm', '18788779966', '物业总部', 'admin', '1', '0.00', 'ENABLED');
 INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, name, path, pid)VALUES (100,now(),0,now(),'Layout' ,'pms-icon-xitongguanli' ,'系统管理','/sysSteam',0 );
 INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, name, path, pid)VALUES (101,now(),0,now(),'Sys/User' ,'pms-icon-userguanli' ,'用户管理','/sysSteam/user',100 );
 INSERT INTO t_menu(id, create_time, delete_flag, update_time, component, icon, name, path, pid)VALUES (102,now(),0,now(),'Sys/Role' ,'pms-icon-jiaoseguanli' ,'角色管理','/sysSteam/role',100 );

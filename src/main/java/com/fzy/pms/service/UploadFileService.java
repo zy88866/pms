@@ -10,6 +10,15 @@ import com.qiniu.common.QiniuException;
  **/
 public interface UploadFileService {
 
+
+    /**
+     * 后台返回文件上传时必须使用的token
+     * 前端直接调用七牛云的服务器
+     * @return
+     */
+    String getAccessToken();
+
+
     /**
      * 图片上传
      */
