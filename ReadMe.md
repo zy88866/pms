@@ -14,6 +14,8 @@
 
  
 ## 初始化脚本
+使用JPA，项目启动自动创建表 
+
 ```sql
 INSERT INTO t_role(`id`, `create_time`, `delete_flag`, `update_time`, `name`, `remark`) VALUES (1, '2019-04-05 14:14:45', 0, '2019-04-05 14:14:45', '超级管理员', '权限最大,不建议分配,~~~');
 INSERT INTO t_role(`id`, `create_time`, `delete_flag`, `update_time`, `name`, `remark`) VALUES (2, '2019-04-05 14:15:45', 0, '2019-04-05 14:15:45', '业主', '缴费,保修等功能');
