@@ -1,8 +1,8 @@
 # 物业管理系统
 
 基于前后端分离开发</br>
-1. 前端地址：https://github.com/17664206081/pms-front
-2. 后端地址：https://github.com/17664206081/pms
+1. 前端地址：https://github.com/zy88866/pms-front
+2. 后端地址：https://github.com/zy88866/pms
 
 
 ## 前端技术栈
